@@ -16,7 +16,6 @@ namespace Metroit.DDD.Domain.ValueObjects
         //{
         //}
 
-
         private static readonly Regex DigitsOnlyRegex = new Regex(@"^\d{10,11}$");
 
         public string RawNumber { get; }
@@ -40,14 +39,26 @@ namespace Metroit.DDD.Domain.ValueObjects
 
         public JapanesePhoneNumber(string number1, string number2, string number3) : this($"{number1}{number2}{number3}") { }
 
-        public string GetHyphenated()
+        /// <summary>
+        /// 国際番号を含む生の電話番号を取得します。
+        /// </summary>
+        /// <returns></returns>
+        public string GetRawNumberWithInternationalNumber()
         {
-            return HyphenateJapanesePhoneNumber(RawNumber);
+            return $"+{InternationalNumber}{HyphenateJapanesePhoneNumber(RawNumber).TrimStart('0')}";
         }
+
+        public string Number => RawNumber;
+
+        public string HyphenatedNumber => HyphenateJapanesePhoneNumber(RawNumber);
+
+        public string WhitespaceNumber => WhitespaceJapanesePhoneNumber(RawNumber);
+
+        public string NumberWithInternational => $"+{InternationalNumber}{HyphenateJapanesePhoneNumber(RawNumber).TrimStart('0')}";
 
         public override string ToString()
         {
-            return GetHyphenated();
+            return HyphenateJapanesePhoneNumber(RawNumber);
         }
 
         private static string HyphenateJapanesePhoneNumber(string digits)
@@ -103,6 +114,59 @@ namespace Metroit.DDD.Domain.ValueObjects
             return digits;
         }
 
+        private static string WhitespaceJapanesePhoneNumber(string digits)
+        {
+            // 携帯電話
+            if (IsMobileNumber(digits))
+            {
+                return string.Format("{0} {1} {2}", digits.Substring(0, 3), digits.Substring(3, 4), digits.Substring(7, 4));
+            }
+
+            // IP電話（050）
+            if (digits.StartsWith("050") && digits.Length == 11)
+            {
+                return string.Format("{0} {1} {2}", digits.Substring(0, 3), digits.Substring(3, 4), digits.Substring(7, 4));
+            }
+
+            // フリーダイヤル（0120, 0800）やナビダイヤル（0570）
+            if ((digits.StartsWith("0120") || digits.StartsWith("0800") || digits.StartsWith("0570")) && digits.Length == 10)
+            {
+                return string.Format("{0} {1} {2}", digits.Substring(0, 4), digits.Substring(4, 3), digits.Substring(7, 3));
+            }
+
+            // 固定電話：市外局番の長さを試行（4→3→2）
+            string[] areaCodeLengths = { "4", "3", "2" };
+
+            foreach (var lenStr in areaCodeLengths)
+            {
+                var len = int.Parse(lenStr);
+                if (digits.Length > len)
+                {
+                    var area = digits.Substring(0, len);
+                    var remaining = digits.Substring(len);
+                    if (remaining.Length == 6 || remaining.Length == 7)
+                    {
+                        var mid = remaining.Substring(0, remaining.Length / 2);
+                        var last = remaining.Substring(remaining.Length / 2);
+                        return string.Format("{0} {1} {2}", area, mid, last);
+                    }
+                }
+            }
+
+            // フォールバック（予備対応）
+            if (digits.Length == 10)
+            {
+                return string.Format("{0} {1} {2}", digits.Substring(0, 3), digits.Substring(3, 3), digits.Substring(6));
+            }
+            else if (digits.Length == 11)
+            {
+                return string.Format("{0} {1} {2}", digits.Substring(0, 3), digits.Substring(3, 4), digits.Substring(7));
+            }
+
+            // 未対応形式
+            return digits;
+        }
+
         /// <summary>
         /// 携帯電話番号かどうかを判定します。
         /// </summary>
@@ -132,4 +196,5 @@ namespace Metroit.DDD.Domain.ValueObjects
         {
             return number.StartsWith("050");
         }
+    }
 }
