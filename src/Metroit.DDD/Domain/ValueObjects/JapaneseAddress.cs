@@ -33,7 +33,7 @@ namespace Metroit.DDD.Domain.ValueObjects
         /// </summary>
         public string Building { get; }
 
-        public JapaneseAddress(string zipCode, string prefecture, string city, string street, string building = null)
+        public JapaneseAddress(string zipCode, string prefecture, string city, string street, string building = null) : base(zipCode, prefecture, city, street, building)
         {
             if (string.IsNullOrWhiteSpace(zipCode))
             {
