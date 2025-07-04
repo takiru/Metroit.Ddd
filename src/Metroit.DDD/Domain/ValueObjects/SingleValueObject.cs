@@ -1,5 +1,4 @@
-﻿using Metroit.DDD.Domain.Annotations;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Metroit.DDD.Domain.ValueObjects
@@ -13,7 +12,7 @@ namespace Metroit.DDD.Domain.ValueObjects
         /// <summary>
         /// 値を取得します。
         /// </summary>
-        public T Value { get; protected set; }
+        public T Value { get; }
 
         /// <summary>
         /// 値を取得します。
@@ -39,5 +38,11 @@ namespace Metroit.DDD.Domain.ValueObjects
         {
             yield return Value;
         }
+
+        /// <summary>
+        /// 値オブジェクトの文字列表現を返します。
+        /// </summary>
+        /// <returns>値オブジェクトの文字列を返却します。</returns>
+        public override string ToString() => Value.ToString();
     }
 }

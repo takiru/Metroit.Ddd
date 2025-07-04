@@ -1,5 +1,6 @@
 using Metroit.DDD.Domain.Annotations;
 using Metroit.DDD.Domain.ValueObjects;
+using Metroit.MVVM.WinForms.Views;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Net.Http.Headers;
@@ -7,9 +8,16 @@ using System.Reflection;
 
 namespace Test
 {
-    public partial class Form1 : Form
+    public partial class Form1 : ViewBase
     {
+        private new Form1ViewModel ViewModel => (Form1ViewModel) base.ViewModel;
+
         public Form1()
+        {
+            InitializeComponent();
+        }
+
+        public Form1(Form1ViewModel viewModel) : base(viewModel)
         {
             InitializeComponent();
         }
@@ -18,14 +26,17 @@ namespace Test
         {
             try
             {
+
+
+
                 //var a = new RequiredAttribute();
                 //var b = new VORequiredAttribute();
                 ////CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
                 //var c = new Hoge("a");
                 //MessageBox.Show("a");
 
-                var a = new Fuga("value1", 123);
-
+                var a = new Fuga(123, "value1");
+                MessageBox.Show(a.Value2.ToString());
             }
             catch (Exception ex)
             {
@@ -74,12 +85,16 @@ namespace Test
 
     public class Fuga : MultiValueObject
     {
+        [MinLength(1, ErrorMessage = "10ï∂éöà»è„")]
+        [VOFeedOrder(1)]
         public string Value1 { get; private set; }
 
-        [VORange(1, 10, ErrorMessage = "{0}ÇÕ{1}Ç©ÇÁ{2}ÇÃîÕàÕÇ≈ì¸óÕÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB")]
-        public int Value2 { get; private set; }
+        [VORange(1, 200, ErrorMessage = "{0}ÇÕ{1}Ç©ÇÁ{2}ÇÃîÕàÕÇ≈ì¸óÕÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB")]
+        [VOFeedOrder(0)]
+        [Display(Name = "Value2ÇÃDisplayName")]
+        public int Value2 { get; set; }
 
-        public Fuga(string value1, int value2) : base(value1, value2)
+        public Fuga(int value1, string value2) : base(value1, value2)
         {
 
         }
@@ -88,10 +103,10 @@ namespace Test
             yield return (Value1, Value2).GetHashCode();
         }
 
-        protected override void SetValues(params object[] param)
-        {
-            Value1 = (string)param[0];
-            Value2 = (int)param[1];
-        }
+        //protected override void SetValues(params object[] param)
+        //{
+        //    Value2 = (int)param[0];
+        //    Value1 = (string)param[1];
+        //}
     }
 }

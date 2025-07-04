@@ -8,11 +8,11 @@ namespace Metroit.DDD.Infrastructure.EF
     /// Entity Framework Coreのリポジトリの基本操作を提供します。
     /// </summary>
     /// <typeparam name="T">エンティティクラス。</typeparam>
-    public abstract class RepositoryBase<T> where T : class
+    public abstract class EFRepositoryBase<T> where T : class
     {
         protected readonly DbContext DbContext;
 
-        public RepositoryBase(DbContext dbContext)
+        public EFRepositoryBase(DbContext dbContext)
         {
             DbContext = dbContext;
         }

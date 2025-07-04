@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Metroit.DDD\Metroit.DDD.csproj" />
+    <ProjectReference Include="..\Metroit.MVVM.WinForms\Metroit.MVVM.WinForms.csproj" />
   </ItemGroup>
 
   <ItemGroup>

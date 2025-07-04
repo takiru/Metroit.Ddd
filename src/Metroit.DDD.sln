@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.DDD", "Metroit.DDD\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{0B57FA2F-25F0-4444-8E19-4D9D1274B1C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.MVVM.WinForms", "Metroit.MVVM.WinForms\Metroit.MVVM.WinForms.csproj", "{772605B8-203F-4694-843F-371F0CEDC76E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0B57FA2F-25F0-4444-8E19-4D9D1274B1C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B57FA2F-25F0-4444-8E19-4D9D1274B1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B57FA2F-25F0-4444-8E19-4D9D1274B1C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{772605B8-203F-4694-843F-371F0CEDC76E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{772605B8-203F-4694-843F-371F0CEDC76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{772605B8-203F-4694-843F-371F0CEDC76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{772605B8-203F-4694-843F-371F0CEDC76E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
