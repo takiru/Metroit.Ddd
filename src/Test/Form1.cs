@@ -18,11 +18,13 @@ namespace Test
         {
             try
             {
-                var a = new RequiredAttribute();
-                var b = new VORequiredAttribute();
-                //CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
-                var c = new Hoge("a");
-                MessageBox.Show("a");
+                //var a = new RequiredAttribute();
+                //var b = new VORequiredAttribute();
+                ////CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+                //var c = new Hoge("a");
+                //MessageBox.Show("a");
+
+                var a = new Fuga("value1", 123);
 
             }
             catch (Exception ex)
@@ -67,6 +69,29 @@ namespace Test
             //Yoka = ['a', 'b', 'c'];
 
             //Validator.ValidateObject(this, new ValidationContext(this), validateAllProperties: true);
+        }
+    }
+
+    public class Fuga : MultiValueObject
+    {
+        public string Value1 { get; private set; }
+
+        [VORange(1, 10, ErrorMessage = "{0}ÇÕ{1}Ç©ÇÁ{2}ÇÃîÕàÕÇ≈ì¸óÕÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB")]
+        public int Value2 { get; private set; }
+
+        public Fuga(string value1, int value2) : base(value1, value2)
+        {
+
+        }
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return (Value1, Value2).GetHashCode();
+        }
+
+        protected override void SetValues(params object[] param)
+        {
+            Value1 = (string)param[0];
+            Value2 = (int)param[1];
         }
     }
 }
