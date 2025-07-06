@@ -29,12 +29,12 @@ namespace Metroit.DDD.ContentRoot
             
         }
 
-        /// <summary>
+        /// <summary>W
         /// アプリケーション全体のDI登録を行います。
         /// </summary>
         public static void Configure()
         {
-            Configuration = GetConfiguration();
+            //Configuration = GetConfiguration();
 
             Host = Microsoft.Extensions.Hosting.Host
                 .CreateDefaultBuilder(Environment.GetCommandLineArgs())

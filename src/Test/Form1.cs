@@ -1,3 +1,4 @@
+using Metroit.DDD.ContentRoot;
 using Metroit.DDD.Domain.Annotations;
 using Metroit.DDD.Domain.ValueObjects;
 using Metroit.MVVM.WinForms.Views;
@@ -17,6 +18,8 @@ namespace Test
 
         public Form1()
         {
+            DIConfigration.Configure();
+
             // launchSettings.json Çì«Ç›çûÇﬂÇÈÅI
             var host = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Build();
             var env = host.Services.GetRequiredService<IHostEnvironment>();
