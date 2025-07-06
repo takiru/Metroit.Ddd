@@ -1,6 +1,9 @@
 using Metroit.DDD.Domain.Annotations;
 using Metroit.DDD.Domain.ValueObjects;
 using Metroit.MVVM.WinForms.Views;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Net.Http.Headers;
@@ -10,16 +13,21 @@ namespace Test
 {
     public partial class Form1 : ViewBase
     {
-        private new Form1ViewModel ViewModel => (Form1ViewModel) base.ViewModel;
+        private new Form1ViewModel ViewModel => (Form1ViewModel)base.ViewModel;
 
         public Form1()
         {
+            // launchSettings.json Çì«Ç›çûÇﬂÇÈÅI
+            var host = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Build();
+            var env = host.Services.GetRequiredService<IHostEnvironment>();
+
+
             InitializeComponent();
         }
 
         public Form1(Form1ViewModel viewModel) : base(viewModel)
         {
-            InitializeComponent();
+            InitializeComponent();   
         }
 
         private void button1_Click(object sender, EventArgs e)
