@@ -30,19 +30,18 @@ namespace Test
 
         public Form1(Form1ViewModel viewModel) : base(viewModel)
         {
-            InitializeComponent();   
+            InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-
+                //CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
 
 
                 //var a = new RequiredAttribute();
                 //var b = new VORequiredAttribute();
-                ////CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
                 //var c = new Hoge("a");
                 //MessageBox.Show("a");
 
@@ -100,7 +99,8 @@ namespace Test
         [VOFeedOrder(1)]
         public string Value1 { get; private set; }
 
-        [VORange(1, 200, ErrorMessage = "{0}‚Í{1}‚©‚ç{2}‚Ì”ÍˆÍ‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B")]
+        //[VORange(1, 10, ErrorMessage = "{0}‚Í{1}‚©‚ç{2}‚Ì”ÍˆÍ‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B")]
+        [VORange(1, 10, ErrorMessageResourceName = "FugaValue2Message", ErrorMessageResourceType = typeof(Resource1))]
         [VOFeedOrder(0)]
         [Display(Name = "Value2‚ÌDisplayName")]
         public int Value2 { get; set; }

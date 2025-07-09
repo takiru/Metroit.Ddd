@@ -70,6 +70,15 @@ namespace Test {
         }
         
         /// <summary>
+        ///   Nurtoral {0}は{1}から{2}の範囲で入力してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FugaValue2Message {
+            get {
+                return ResourceManager.GetString("FugaValue2Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Nurtoral{0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string HogeMessage {

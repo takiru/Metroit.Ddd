@@ -120,6 +120,9 @@
   <data name="FugaMessage" xml:space="preserve">
     <value>Nurtoral {0}は{1}桁まで</value>
   </data>
+  <data name="FugaValue2Message" xml:space="preserve">
+    <value>Nurtoral {0}は{1}から{2}の範囲で入力してください。</value>
+  </data>
   <data name="HogeMessage" xml:space="preserve">
     <value>Nurtoral{0}</value>
   </data>

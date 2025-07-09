@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resource1.ja-JP.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>

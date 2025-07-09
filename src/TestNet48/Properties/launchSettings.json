@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Test": {
+    "TestNet48": {
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"

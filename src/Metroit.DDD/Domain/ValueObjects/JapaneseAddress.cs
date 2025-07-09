@@ -8,30 +8,30 @@ namespace Metroit.DDD.Domain.ValueObjects
     /// </summary>
     public class JapaneseAddress : Address
     {
-        /// <summary>
-        /// 郵便番号を取得します。
-        /// </summary>
-        public string ZipCode { get; }
+        ///// <summary>
+        ///// 郵便番号を取得します。
+        ///// </summary>
+        //public string ZipCode { get; }
 
-        /// <summary>
-        /// 都道府県を取得します。
-        /// </summary>
-        public string Prefecture { get; }
+        ///// <summary>
+        ///// 都道府県を取得します。
+        ///// </summary>
+        //public string Prefecture { get; }
 
-        /// <summary>
-        /// 市区町村を取得します。
-        /// </summary>
-        public string City { get; }
+        ///// <summary>
+        ///// 市区町村を取得します。
+        ///// </summary>
+        //public string City { get; }
 
-        /// <summary>
-        /// 番地を取得します。
-        /// </summary>
-        public string Street { get; }
+        ///// <summary>
+        ///// 番地を取得します。
+        ///// </summary>
+        //public string Street { get; }
 
-        /// <summary>
-        /// 建物名を取得します。
-        /// </summary>
-        public string Building { get; }
+        ///// <summary>
+        ///// 建物名を取得します。
+        ///// </summary>
+        //public string Building { get; }
 
         public JapaneseAddress(string zipCode, string prefecture, string city, string street, string building = null) : base(zipCode, prefecture, city, street, building)
         {
@@ -52,11 +52,11 @@ namespace Metroit.DDD.Domain.ValueObjects
                 throw new ArgumentException("市区町村は必須です。", nameof(city));
             }
 
-            ZipCode = zipCode;
-            Prefecture = prefecture;
-            City = city;
-            Street = street;
-            Building = building;
+            //ZipCode = zipCode;
+            //Prefecture = prefecture;
+            //City = city;
+            //Street = street;
+            //Building = building;
         }
     }
 }

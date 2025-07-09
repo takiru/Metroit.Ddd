@@ -10,11 +10,6 @@ namespace Metroit.DDD.ContentRoot
     public class DIConfigration
     {
         /// <summary>
-        /// アプリケーションの設定情報を取得または設定する。
-        /// </summary>
-        private static IConfiguration Configuration;
-
-        /// <summary>
         /// アプリケーション全体のDIコンテナを取得します。
         /// </summary>
         public static IHost Host { get; private set; }
@@ -63,20 +58,6 @@ namespace Metroit.DDD.ContentRoot
             //        ViewDIConfiguration.Configure(services, Configuration);
             //    })
             //.Build();
-        }
-
-        /// <summary>
-        /// 設定ファイルの読み込みを可能にする。
-        /// </summary>
-        /// <returns>IConfiguration。</returns>
-        private static IConfiguration GetConfiguration()
-        {
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.SetBasePath(AppContext.BaseDirectory);
-            configBuilder.AddJsonFile("appsettings.json");
-            configBuilder.AddJsonFile("appsettings.Development.json");
-
-            return configBuilder.Build();
         }
     }
 }
