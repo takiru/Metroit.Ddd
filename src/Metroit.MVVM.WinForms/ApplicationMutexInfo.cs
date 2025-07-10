@@ -31,6 +31,7 @@ namespace Metroit.MVVM.WinForms
 
         /// <summary>
         /// ミューテックスがロックできなかったときの振る舞いを設定または取得します。
+        /// 既定は <see cref="ApplicationMutexBehavior.Shutdown"/> です。
         /// </summary>
         public ApplicationMutexBehavior CanNotLockedBehavior { get; set; } = ApplicationMutexBehavior.Shutdown;
 
@@ -40,9 +41,22 @@ namespace Metroit.MVVM.WinForms
         public Action ShuttingDown { get; set; } = null;
 
         /// <summary>
-        /// <see cref="CanNotLockedBehavior"/> が <see cref="ApplicationMutexBehavior.Shutdown"/> のとき、シャットダウンした結果を取得または設定します。
+        /// <see cref="CanNotLockedBehavior"/> が <see cref="ApplicationMutexBehavior.Shutdown"/> のときの返却コードを取得または設定します。
+        /// 既定は 1 です。
         /// </summary>
-        public int ShutdownExitCode { get; set; } = -1;
+        public int ShutdownExitCode { get; set; } = 1;
+
+        /// <summary>
+        /// <see cref="CanNotLockedBehavior"/> が <see cref="ApplicationMutexBehavior.BringToFront"/> で既存のアプリケーションを前面に表示できたときの返却コードを取得または設定します。
+        /// 既定は 2 です。
+        /// </summary>
+        public int BringToFrontExitCode { get; set; } = 2;
+
+        /// <summary>
+        /// <see cref="CanNotLockedBehavior"/> が <see cref="ApplicationMutexBehavior.BringToFront"/> で既存のアプリケーションを前面に表示できなかったときの返却コードを取得または設定します。
+        /// 既定は 3 です。
+        /// </summary>
+        public int BringToFrontFailedExitCode { get; set; } = 3;
 
         /// <summary>
         /// 新しいインスタンスを生成します。

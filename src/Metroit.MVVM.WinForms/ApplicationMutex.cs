@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Metroit.MVVM.WinForms
 {
-    class ApplicationMutex
+    public class ApplicationMutex
     {
         /// <summary>
         /// ミューテックスの設定を取得または設定します。
@@ -82,8 +82,13 @@ namespace Metroit.MVVM.WinForms
         /// アプリケーションの二重起動をロックします。<br/>
         /// ロックできなかったときには <see cref="MutexInfo"/> に従ってロックを中断します。
         /// </summary>
+        /// <exception cref="InvalidOperationException"><see cref="MutexInfo"/> が未設定か、アプリケーションがすでにロック済みです。</exception>
         public void Lock()
         {
+            if (_isLocked)
+            {
+                throw new InvalidOperationException("The application is already locked.");
+            }
             if (MutexInfo == null)
             {
                 throw new InvalidOperationException("MutexInfo is not set.");
@@ -99,13 +104,20 @@ namespace Metroit.MVVM.WinForms
 
             if (MutexInfo.CanNotLockedBehavior == ApplicationMutexBehavior.Shutdown)
             {
+                MutexInfo.ShuttingDown?.Invoke();
                 Environment.Exit(MutexInfo.ShutdownExitCode);
                 return;
             }
 
             if (MutexInfo.CanNotLockedBehavior == ApplicationMutexBehavior.BringToFront)
             {
-                WakeupWindow(GetStartedProcess().MainWindowHandle);
+                var startedProcess = GetStartedProcess();
+                if (startedProcess == null)
+                {
+                    Environment.Exit(MutexInfo.BringToFrontFailedExitCode);
+                }
+                WakeupWindow(startedProcess.MainWindowHandle);
+                Environment.Exit(MutexInfo.BringToFrontExitCode);
                 return;
             }
         }
@@ -113,16 +125,12 @@ namespace Metroit.MVVM.WinForms
         /// <summary>
         /// アプリケーションのロックを解除します。
         /// </summary>
-        /// <exception cref="InvalidOperationException"><see cref="Lock"/> が行われていない または既に解除済みです。</exception>
+        /// <exception cref="InvalidOperationException">アプリケーションはロックされていません。</exception>
         public void Unlock()
         {
             if (!_isLocked)
             {
                 throw new InvalidOperationException("The application is not locked.");
-            }
-            if (_mutex == null)
-            {
-                throw new InvalidOperationException("The application lock has been released.");
             }
 
             _mutex.ReleaseMutex();

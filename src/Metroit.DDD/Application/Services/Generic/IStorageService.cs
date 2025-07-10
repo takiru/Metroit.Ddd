@@ -84,6 +84,13 @@ namespace Metroit.DDD.Application.Services.Generic
         /// <returns>絶対パス。</returns>
         string GetFullPath(T path);
 
+        /// <summary>
+        /// パスの親となるパスを取得します。
+        /// </summary>
+        /// <param name="path">親のパスを含むパス。</param>
+        /// <returns>親のパス。</returns>
+        string GetParentPath(T path);
+
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         /// <summary>
         /// 相対パスとベースパスから絶対パスを取得します。

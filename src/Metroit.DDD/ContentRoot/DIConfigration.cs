@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 
@@ -14,23 +15,12 @@ namespace Metroit.DDD.ContentRoot
         /// </summary>
         public static IHost Host { get; private set; }
 
-        public DIConfigration()
-        {
-            
-        }
-
-        public DIConfigration(string appsettingsJsonFile = default)
-        {
-            
-        }
 
         /// <summary>W
         /// アプリケーション全体のDI登録を行います。
         /// </summary>
         public static void Configure()
         {
-            //Configuration = GetConfiguration();
-
             Host = Microsoft.Extensions.Hosting.Host
                 .CreateDefaultBuilder(Environment.GetCommandLineArgs())
                 .ConfigureAppConfiguration((context, config) =>
@@ -42,22 +32,44 @@ namespace Metroit.DDD.ContentRoot
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    //// DIコンテナの登録を行う。
-                    //ApplicationBaseDIConfiguration.Configure(services, Configuration);
-                    //RepositoryDIConfiguration.Configure(services, Configuration);
-                    //ServiceDIConfiguration.Configure(services, Configuration);
-                    //ViewDIConfiguration.Configure(services, Configuration);
+                    PrepareFirstServiceConfiguration?.Invoke(context, services);
+                    DomainServiceConfiguration?.Invoke(context, services);
+                    InfrastructureServiceConfiguration?.Invoke(context, services);
+                    ApplicationServiceConfiguration?.Invoke(context, services);
+                    PresentationServiceConfiguration?.Invoke(context, services);
+                    PrepareLastServiceConfiguration?.Invoke(context, services);
                 })
                 .Build();
-            //Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
-            //    .ConfigureServices((context, services) =>
-            //    {
-            //        ApplicationBaseDIConfiguration.Configure(services, Configuration);
-            //        RepositoryDIConfiguration.Configure(services, Configuration);
-            //        ServiceDIConfiguration.Configure(services, Configuration);
-            //        ViewDIConfiguration.Configure(services, Configuration);
-            //    })
-            //.Build();
         }
+
+        /// <summary>
+        /// 最初に準備が必要なサービス構成を行います。
+        /// </summary>
+        public static Action<HostBuilderContext, IServiceCollection> PrepareFirstServiceConfiguration = null;
+
+        /// <summary>
+        /// ドメイン層で必要なサービス構成を行います。
+        /// </summary>
+        public static Action<HostBuilderContext, IServiceCollection> DomainServiceConfiguration = null;
+
+        /// <summary>
+        /// インフラ層で必要なサービス構成を行います。
+        /// </summary>
+        public static Action<HostBuilderContext, IServiceCollection> InfrastructureServiceConfiguration = null;
+
+        /// <summary>
+        /// アプリケーション層で必要なサービス構成を行います。
+        /// </summary>
+        public static Action<HostBuilderContext, IServiceCollection> ApplicationServiceConfiguration = null;
+
+        /// <summary>
+        /// プレゼンテーション層で必要なサービス構成を行います。
+        /// </summary>
+        public static Action<HostBuilderContext, IServiceCollection> PresentationServiceConfiguration = null;
+
+        /// <summary>
+        /// 最後に準備が必要なサービス構成を行います。
+        /// </summary>
+        public static Action<HostBuilderContext, IServiceCollection> PrepareLastServiceConfiguration = null;
     }
 }

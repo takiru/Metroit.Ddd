@@ -1,5 +1,8 @@
 ﻿namespace Metroit.DDD.Domain.ValueObjects
 {
+    /// <summary>
+    /// 単一の値オブジェクトのインターフェースを提供します。
+    /// </summary>
     public interface ISingleValueObject
     {
         /// <summary>

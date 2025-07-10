@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Metroit.DDD.Domain.ValueObjects
@@ -89,6 +90,31 @@ namespace Metroit.DDD.Domain.ValueObjects
             return GetEqualityComponents()
                 .Select(x => x != null ? x.GetHashCode() : 0)
                 .Aggregate((x, y) => x ^ y);
+        }
+
+        /// <summary>
+        /// 検証コンテキスト、およびすべてのプロパティを検証するかどうかを指定する値を使用して、指定されたオブジェクトが有効かどうかを判断します。
+        /// </summary>
+        protected void ValidateObject()
+        {
+            var r = new List<ValidationResult>();
+            var b = Validator.TryValidateObject(this, new ValidationContext(this), r, true);
+
+            Validator.ValidateObject(this, new ValidationContext(this), true);
+        }
+
+        /// <summary>
+        /// 検証コンテキスト、検証結果のコレクション、およびすべてのプロパティを検証するかどうかを指定する値を使用して、指定されたオブジェクトが有効かどうかを判断します。
+        /// </summary>
+        /// <param name="result">失敗した各検証を保持するコレクション。</param>
+        /// <returns>オブジェクトが有効な場合は true。それ以外の場合は false を返却します。</returns>
+        protected bool TryValidateObject(out IEnumerable<ValidationResult> result)
+        {
+            var validationResuts = new List<ValidationResult>();
+            var r = Validator.TryValidateObject(this, new ValidationContext(this), validationResuts, true);
+            result = validationResuts;
+
+            return r;
         }
     }
 }

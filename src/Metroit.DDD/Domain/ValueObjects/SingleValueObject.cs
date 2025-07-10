@@ -20,14 +20,24 @@ namespace Metroit.DDD.Domain.ValueObjects
         object ISingleValueObject.Value => Value;
 
         /// <summary>
+        /// 新しいインスタンスを生成します。値は即時検証されます。
+        /// </summary>
+        /// <param name="value">値。</param>
+        protected SingleValueObject(T value) : this(value, true) { }
+
+        /// <summary>
         /// 新しいインスタンスを生成します。
         /// </summary>
         /// <param name="value">値。</param>
-        protected SingleValueObject(T value)
+        /// <param name="validate">即時検証を行うかどうか。</param>
+        protected SingleValueObject(T value, bool validate)
         {
             Value = value;
 
-            Validator.ValidateObject(this, new ValidationContext(this), true);
+            if (validate)
+            {
+                ValidateObject();
+            }
         }
 
         /// <summary>

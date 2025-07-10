@@ -1,3 +1,5 @@
+using Metroit.MVVM.WinForms;
+
 namespace Test
 {
     internal static class Program

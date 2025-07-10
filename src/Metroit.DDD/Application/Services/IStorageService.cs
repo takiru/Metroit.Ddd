@@ -70,10 +70,10 @@ namespace Metroit.DDD.Application.Services
         DateTime GetLastWriteTime(string path);
 
         /// <summary>
-        /// パスのルートディレクトリを取得します。
+        /// パスのルートパスを取得します。
         /// </summary>
-        /// <param name="path">ルートディレクトリを含むパス。</param>
-        /// <returns>ルートディレクトリ。</returns>
+        /// <param name="path">ルートパスルートパスを含むパス。</param>
+        /// <returns>ルートパス。</returns>
         string GetPathRoot(string path);
 
         /// <summary>
@@ -82,6 +82,13 @@ namespace Metroit.DDD.Application.Services
         /// <param name="path">絶対パスを取得するパス。</param>
         /// <returns>絶対パス。</returns>
         string GetFullPath(string path);
+
+        /// <summary>
+        /// パスの親となるパスを取得します。
+        /// </summary>
+        /// <param name="path">親のパスを含むパス。</param>
+        /// <returns>親のパス。</returns>
+        string GetParentPath(string path);
 
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         /// <summary>

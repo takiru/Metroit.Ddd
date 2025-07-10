@@ -114,10 +114,10 @@ namespace Metroit.DDD.Infrastructure.Services
         }
 
         /// <summary>
-        /// パスのルートディレクトリを取得します。
+        /// パスのルートパスを取得します。
         /// </summary>
-        /// <param name="path">ルートディレクトリを含むパス。</param>
-        /// <returns>ルートディレクトリ。</returns>
+        /// <param name="path">ルートパスルートパスを含むパス。</param>
+        /// <returns>ルートパス。</returns>
         public virtual string GetPathRoot(string path)
         {
             return Path.GetPathRoot(path);
@@ -131,6 +131,16 @@ namespace Metroit.DDD.Infrastructure.Services
         public virtual string GetFullPath(string path)
         {
             return Path.GetFullPath(path);
+        }
+
+        /// <summary>
+        /// パスの親となるパスを取得します。
+        /// </summary>
+        /// <param name="path">親のパスを含むパス。</param>
+        /// <returns>親のパス。</returns>
+        public virtual string GetParentPath(string path)
+        {
+            return Path.GetDirectoryName(path);
         }
 
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER

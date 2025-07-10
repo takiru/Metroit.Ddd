@@ -4,11 +4,7 @@ using Metroit.DDD.Domain.ValueObjects;
 using Metroit.MVVM.WinForms.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Hosting.Internal;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Net.Http.Headers;
-using System.Reflection;
 
 namespace Test
 {
@@ -44,6 +40,8 @@ namespace Test
                 //var b = new VORequiredAttribute();
                 //var c = new Hoge("a");
                 //MessageBox.Show("a");
+
+                //var b = new Hoge("");
 
                 var a = new Fuga(123, "value1");
                 MessageBox.Show(a.Value2.ToString());
@@ -90,34 +88,32 @@ namespace Test
             //Yoka = ['a', 'b', 'c'];
 
             //Validator.ValidateObject(this, new ValidationContext(this), validateAllProperties: true);
+            //ValidateObject();
         }
     }
 
     public class Fuga : MultiValueObject
     {
-        [MinLength(1, ErrorMessage = "10ï∂éöà»è„")]
-        [VOFeedOrder(1)]
-        public string Value1 { get; private set; }
-
         //[VORange(1, 10, ErrorMessage = "{0}ÇÕ{1}Ç©ÇÁ{2}ÇÃîÕàÕÇ≈ì¸óÕÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB")]
         [VORange(1, 10, ErrorMessageResourceName = "FugaValue2Message", ErrorMessageResourceType = typeof(Resource1))]
-        [VOFeedOrder(0)]
-        [Display(Name = "Value2ÇÃDisplayName")]
-        public int Value2 { get; set; }
+        //[VOFeedOrder(0)]
+        [Display(Name = "Value1ÇÃDisplayName")]
+        public int Value1 { get; set; }
 
-        public Fuga(int value1, string value2) : base(value1, value2)
+        [MinLength(1, ErrorMessage = "10ï∂éöà»è„")]
+        [VOFeedOrder(1)]
+        public string Value2 { get; private set; }
+
+        public Fuga(int value1, string value2) : base(false, value1, value2)
         {
-
+            Value1 = value1;
+            ValidateObject();
         }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return (Value1, Value2).GetHashCode();
+            yield return Value1;
+            yield return Value2;
         }
-
-        //protected override void SetValues(params object[] param)
-        //{
-        //    Value2 = (int)param[0];
-        //    Value1 = (string)param[1];
-        //}
     }
 }
