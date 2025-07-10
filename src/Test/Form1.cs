@@ -43,7 +43,12 @@ namespace Test
 
                 //var b = new Hoge("");
 
-                var a = new Fuga(123, "value1");
+                var a = new Fuga(1, "value1", FugaType.Special);
+                //var b = new Fuga(123, "value1", FugaType.Special);
+                //if (a == b)
+                //{
+                //    MessageBox.Show("Ç®Ç»Ç∂");
+                //}
                 MessageBox.Show(a.ToString());
                 MessageBox.Show(a.Value2.ToString());
             }
@@ -97,24 +102,26 @@ namespace Test
     {
         //[VORange(1, 10, ErrorMessage = "{0}ÇÕ{1}Ç©ÇÁ{2}ÇÃîÕàÕÇ≈ì¸óÕÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB")]
         [VORange(1, 200, ErrorMessageResourceName = "FugaValue2Message", ErrorMessageResourceType = typeof(Resource1))]
-        //[VOFeedOrder(0)]
+        [VOFeedOrder(0)]
         [Display(Name = "Value1ÇÃDisplayName")]
-        public int Value1 { get; set; }
+        public int? Value1 { get; private set; }
 
         [MinLength(1, ErrorMessage = "10ï∂éöà»è„")]
         [VOFeedOrder(1)]
         public string Value2 { get; private set; }
 
-        public Fuga(int value1, string value2) : base(false, value1, value2)
-        {
-            Value1 = value1;
-            ValidateObject();
-        }
+        [VOFeedOrder(2)]
+        public FugaType? FugaType { get; private set; }
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        public Fuga(int? value1, string value2, FugaType? fugaType) : base(value1, value2, fugaType)
         {
-            yield return Value1;
-            yield return Value2;
+            
         }
+    }
+
+    public enum FugaType
+    {
+        Normal,
+        Special
     }
 }

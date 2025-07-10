@@ -1,6 +1,7 @@
 ﻿using Metroit.DDD.Domain.ValueObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
 
 namespace Metroit.DDD.Domain.Annotations
 {
@@ -32,6 +33,11 @@ namespace Metroit.DDD.Domain.Annotations
             AllowNullOrEmpty = allowNullOrEmpty;
         }
 
+        /// <summary>
+        /// 値がメールアドレスに形式として妥当かどうかを検証します。
+        /// </summary>
+        /// <param name="value">検証値。</param>
+        /// <returns>妥当な場合は true, それ以外は false を返却します。</returns>
         public override bool IsValid(object value)
         {
             if (AllowNullOrEmpty)

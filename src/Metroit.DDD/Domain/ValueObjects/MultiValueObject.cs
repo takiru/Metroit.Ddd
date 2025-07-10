@@ -1,4 +1,5 @@
 ﻿using Metroit.DDD.Domain.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,7 +14,10 @@ namespace Metroit.DDD.Domain.ValueObjects
     /// </remarks>
     public abstract class MultiValueObject : ValueObject
     {
-        private object[] _values;
+        /// <summary>
+        /// AutoFeedMember によって流し込みが行われた値。
+        /// </summary>
+        private List<object> _autoFeededValues = new List<object>();
 
         /// <summary>
         /// 新しいインスタンスを生成します。値は即時検証されます。
@@ -29,7 +33,6 @@ namespace Metroit.DDD.Domain.ValueObjects
         protected MultiValueObject(bool validate, params object[] values)
         {
             AutoFeedMember(values);
-            _values = values;
             if (validate)
             {
                 ValidateObject();
@@ -68,13 +71,28 @@ namespace Metroit.DDD.Domain.ValueObjects
                     }
                     if (orderMatchMember.Property is PropertyInfo prop)
                     {
-                        prop.SetValue(this, x.Value);
+                        var targetType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                        prop.SetValue(this, x.Value == null ? null : Convert.ChangeType(x.Value, targetType));
                     }
                     else if (orderMatchMember.Property is FieldInfo field)
                     {
-                        field.SetValue(this, x.Value);
+                        var targetType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
+                        field.SetValue(this, x.Value == null ? null : Convert.ChangeType(x.Value, targetType));
                     }
+                    _autoFeededValues.Add(x.Value);
                 });
+        }
+
+        /// <summary>
+        /// 比較を行う値のコレクションを返却します。
+        /// </summary>
+        /// <returns>比較を行う値のコレクション。</returns>
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            foreach (var value in _autoFeededValues)
+            {
+                yield return value;
+            }
         }
 
         /// <summary>
@@ -83,7 +101,7 @@ namespace Metroit.DDD.Domain.ValueObjects
         /// <returns>値オブジェクトの文字列を返却します。</returns>
         public override string ToString()
         {
-            return string.Join(",", _values
+            return string.Join(",", _autoFeededValues
                 .Select(x => x?.ToString() ?? string.Empty)
                 );
         }

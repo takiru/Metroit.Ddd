@@ -9,11 +9,15 @@ namespace Metroit.DDD.Domain.Annotations
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public class VOFeedOrderAttribute : Attribute
     {
+        /// <summary>
+        /// 値を流し込む順序を取得します。
+        /// </summary>
         public int Order { get; } = default;
 
         /// <summary>
         /// 新しいインスタンスを生成します。
         /// </summary>
+        /// <param name="order">値を流し込む順序。</param>
         public VOFeedOrderAttribute(int order) : base()
         {
             Order = order;
