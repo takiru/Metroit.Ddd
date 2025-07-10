@@ -44,6 +44,7 @@ namespace Test
                 //var b = new Hoge("");
 
                 var a = new Fuga(123, "value1");
+                MessageBox.Show(a.ToString());
                 MessageBox.Show(a.Value2.ToString());
             }
             catch (Exception ex)
@@ -95,7 +96,7 @@ namespace Test
     public class Fuga : MultiValueObject
     {
         //[VORange(1, 10, ErrorMessage = "{0}ÇÕ{1}Ç©ÇÁ{2}ÇÃîÕàÕÇ≈ì¸óÕÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB")]
-        [VORange(1, 10, ErrorMessageResourceName = "FugaValue2Message", ErrorMessageResourceType = typeof(Resource1))]
+        [VORange(1, 200, ErrorMessageResourceName = "FugaValue2Message", ErrorMessageResourceType = typeof(Resource1))]
         //[VOFeedOrder(0)]
         [Display(Name = "Value1ÇÃDisplayName")]
         public int Value1 { get; set; }
