@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading;
 
-namespace Metroit.MVVM.WinForms
+namespace Metroit.Mvvm.WinForms.ReactiveProperty.WinForms
 {
     public class ApplicationMutex
     {

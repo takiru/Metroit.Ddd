@@ -1,4 +1,4 @@
-﻿namespace Metroit.MVVM.WinForms
+﻿namespace Metroit.Mvvm.WinForms.ReactiveProperty.WinForms
 {
     /// <summary>
     /// アプリケーションミューテックスの動作を定義します。

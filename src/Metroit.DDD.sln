@@ -7,11 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.DDD", "Metroit.DDD\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{0B57FA2F-25F0-4444-8E19-4D9D1274B1C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.MVVM.WinForms", "Metroit.MVVM.WinForms\Metroit.MVVM.WinForms.csproj", "{772605B8-203F-4694-843F-371F0CEDC76E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm.WinForms.ReactiveProperty", "Metroit.Mvvm.WinForms.ReactiveProperty\Metroit.Mvvm.WinForms.ReactiveProperty.csproj", "{772605B8-203F-4694-843F-371F0CEDC76E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNet48", "TestNet48\TestNet48.csproj", "{2BCCE8F6-B056-4AF7-898D-7E5C47BA96C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNet48Old", "TestNet48Old\TestNet48Old.csproj", "{1DB4B851-EA1F-4982-A004-98793CB6A3EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm", "Metroit.Mvvm\Metroit.Mvvm.csproj", "{777DA50B-199B-4F40-B365-C1DBADD6CBCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm.Test", "Metroit.Mvvm.Test\Metroit.Mvvm.Test.csproj", "{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{1DB4B851-EA1F-4982-A004-98793CB6A3EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DB4B851-EA1F-4982-A004-98793CB6A3EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DB4B851-EA1F-4982-A004-98793CB6A3EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{777DA50B-199B-4F40-B365-C1DBADD6CBCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777DA50B-199B-4F40-B365-C1DBADD6CBCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777DA50B-199B-4F40-B365-C1DBADD6CBCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777DA50B-199B-4F40-B365-C1DBADD6CBCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

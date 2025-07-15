@@ -85,9 +85,9 @@
       <Project>{6e2cb135-0419-4152-bd0d-6ea22d689962}</Project>
       <Name>Metroit.DDD</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Metroit.MVVM.WinForms\Metroit.MVVM.WinForms.csproj">
+    <ProjectReference Include="..\Metroit.MVVM.WinForms\Metroit.Mvvm.WinForms.ReactiveProperty.csproj">
       <Project>{772605b8-203f-4694-843f-371f0cedc76e}</Project>
-      <Name>Metroit.MVVM.WinForms</Name>
+      <Name>Metroit.Mvvm.WinForms.ReactiveProperty</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

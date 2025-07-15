@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Metroit.MVVM.WinForms
+namespace Metroit.Mvvm.WinForms.ReactiveProperty.WinForms
 {
     /// <summary>
     /// アプリケーションミューテックスを行うときに使用する値のセットを提供します。

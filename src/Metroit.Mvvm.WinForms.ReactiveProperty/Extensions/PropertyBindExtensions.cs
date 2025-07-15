@@ -3,7 +3,7 @@ using System;
 using System.Linq.Expressions;
 using System.Windows.Forms;
 
-namespace Metroit.MVVM.WinForms.Extensions
+namespace Metroit.Mvvm.WinForms.ReactiveProperty.Extensions
 {
     /// <summary>
     /// ReactiveProperty による値、状態のバインドを行う拡張メソッドを提供します。

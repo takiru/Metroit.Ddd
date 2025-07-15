@@ -20,7 +20,6 @@ namespace Test
             var host = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Build();
             var env = host.Services.GetRequiredService<IHostEnvironment>();
 
-
             InitializeComponent();
         }
 
@@ -115,7 +114,7 @@ namespace Test
 
         public Fuga(int? value1, string value2, FugaType? fugaType) : base(value1, value2, fugaType)
         {
-            
+
         }
     }
 

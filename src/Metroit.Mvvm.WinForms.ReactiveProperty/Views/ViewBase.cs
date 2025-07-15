@@ -1,7 +1,7 @@
-﻿using Metroit.Mvvm.WinForms.ViewModels;
+﻿using Metroit.Mvvm.WinForms.ReactiveProperty.ViewModels;
 using System.Windows.Forms;
 
-namespace Metroit.Mvvm.WinForms.Views
+namespace Metroit.Mvvm.WinForms.ReactiveProperty.Views
 {
     /// <summary>
     /// メイン画面の操作を提供します。
@@ -29,19 +29,19 @@ namespace Metroit.Mvvm.WinForms.Views
         {
             ViewModel = viewModel;
 
-            ViewModel.MessageProvider.ExecuteInformationMessage = message =>
+            ViewModel.ExecuteInformationMessage = message =>
             {
                 MessageBox.Show(message, Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             };
-            ViewModel.MessageProvider.ExecuteConfirmMessage = (message, buttons) =>
+            ViewModel.ExecuteConfirmMessage = (message, buttons) =>
             {
                 return MessageBox.Show(message, Text, buttons, MessageBoxIcon.Question);
             };
-            ViewModel.MessageProvider.ExecuteWarningMessage = message =>
+            ViewModel.ExecuteWarningMessage = message =>
             {
                 MessageBox.Show(message, Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             };
-            ViewModel.MessageProvider.ExecuteErrorMessage = message =>
+            ViewModel.ExecuteErrorMessage = message =>
             {
                 MessageBox.Show(message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             };
