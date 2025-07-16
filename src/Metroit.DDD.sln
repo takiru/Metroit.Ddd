@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm.WinForms", "Me
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.CommunityToolkit.Mvvm", "Metroit.CommunityToolkit.Mvvm\Metroit.CommunityToolkit.Mvvm.csproj", "{26FB66B2-3326-4556-AAD8-B21E964FDAFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.CommunityToolkit.Mvvm.WinForms", "Metroit.CommunityToolkit.Mvvm.WinForms\Metroit.CommunityToolkit.Mvvm.WinForms.csproj", "{8B383139-776F-4B6D-BBE5-2305CD121AC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B383139-776F-4B6D-BBE5-2305CD121AC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B383139-776F-4B6D-BBE5-2305CD121AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B383139-776F-4B6D-BBE5-2305CD121AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B383139-776F-4B6D-BBE5-2305CD121AC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

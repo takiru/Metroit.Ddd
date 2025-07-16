@@ -1,22 +1,13 @@
 ﻿using Metroit.DDD.ContentRoot;
 using Metroit.DDD.Domain.Annotations;
 using Metroit.DDD.Domain.ValueObjects;
-using Metroit.Mvvm.WinForms.ReactiveProperty.Extensions;
+using Metroit.Mvvm.WinForms.Extensions;
 using Metroit.Mvvm.WinForms.ReactiveProperty.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Reactive.Bindings;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Input;
 
 namespace Test
 {
@@ -38,7 +29,7 @@ namespace Test
 
             textBox1.BindText(() => ViewModel.Text.Value);
             button1.BindClick(ViewModel.TestCommand);
-            
+
             //textBox1.Bind(() => ViewModel.Text.Value);
             //button1.Bind(ViewModel.TestCommand);
         }

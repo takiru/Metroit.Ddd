@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Metroit.CommunityToolkit.Mvvm\Metroit.CommunityToolkit.Mvvm.csproj" />
+    <ProjectReference Include="..\Metroit.Mvvm.WinForms\Metroit.Mvvm.WinForms.csproj" />
+  </ItemGroup>
+
+</Project>

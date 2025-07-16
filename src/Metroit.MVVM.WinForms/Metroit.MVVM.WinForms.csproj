@@ -1,20 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFrameworks>net8.0-windows;net481</TargetFrameworks>
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Metroit.Mvvm\Metroit.Mvvm.csproj" />
+    <Compile Remove="ViewModels\ViewModelBase.cs" />
+    <Compile Remove="Views\ViewBase.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\ViewBase.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>
