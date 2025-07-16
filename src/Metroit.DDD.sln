@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm", "Metroit.Mvv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm.Test", "Metroit.Mvvm.Test\Metroit.Mvvm.Test.csproj", "{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm.WinForms", "Metroit.Mvvm.WinForms\Metroit.Mvvm.WinForms.csproj", "{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.CommunityToolkit.Mvvm", "Metroit.CommunityToolkit.Mvvm\Metroit.CommunityToolkit.Mvvm.csproj", "{26FB66B2-3326-4556-AAD8-B21E964FDAFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

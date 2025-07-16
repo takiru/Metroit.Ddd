@@ -2,229 +2,141 @@
 using System;
 using System.Linq.Expressions;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Metroit.Mvvm.WinForms.ReactiveProperty.Extensions
 {
     /// <summary>
-    /// ReactiveProperty による値、状態のバインドを行う拡張メソッドを提供します。
+    /// プロパティのバインドを行う拡張メソッドを提供します。
     /// </summary>
     public static class PropertyBindExtensions
     {
         /// <summary>
-        /// 値、状態をバインドします。
+        /// プロパティをバインドします。
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="U"></typeparam>
-        /// <param name="bindingProperty">バインドするプロパティの Expression。</param>
-        /// <param name="bindExpression">バインドする値のExpression。</param>
-        public static void Bind<T, U>(Expression<Func<T>> bindingProperty, Expression<Func<U>> bindExpression)
+        /// <param name="targetPropertyExpression">バインド対象とするプロパティの式木。</param>
+        /// <param name="bindPropertyExpression">バインドする値の式木。</param>
+        public static void Bind<T, U>(Expression<Func<T>> targetPropertyExpression, Expression<Func<U>> bindPropertyExpression)
+        {
+            Bind(targetPropertyExpression, bindPropertyExpression, false, DataSourceUpdateMode.OnPropertyChanged,
+                string.Empty, null);
+        }
+
+        /// <summary>
+        /// プロパティをバインドします。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="targetPropertyExpression">バインド対象とするプロパティの式木。</param>
+        /// <param name="bindPropertyExpression">バインドする値の式木。</param>
+        /// <param name="formattingEnabled">表示されるデータの書式を指定する場合は true。それ以外の場合は false。既定は false です。</param>
+        public static void Bind<T, U>(Expression<Func<T>> targetPropertyExpression, Expression<Func<U>> bindPropertyExpression,
+            bool formattingEnabled)
+        {
+            Bind(targetPropertyExpression, bindPropertyExpression, formattingEnabled, DataSourceUpdateMode.OnPropertyChanged,
+                string.Empty, null);
+        }
+
+        /// <summary>
+        /// プロパティをバインドします。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="targetPropertyExpression">バインド対象とするプロパティの式木。</param>
+        /// <param name="bindPropertyExpression">バインドする値の式木。</param>
+        /// <param name="formattingEnabled">表示されるデータの書式を指定する場合は true。それ以外の場合は false。既定は false です。</param>
+        /// <param name="dataSourceUpdateMode"><see cref="DataSourceUpdateMode"/> 値のいずれか 1 つ。既定は <see cref="DataSourceUpdateMode.OnPropertyChanged"/> です。</param>
+        public static void Bind<T, U>(Expression<Func<T>> targetPropertyExpression, Expression<Func<U>> bindPropertyExpression,
+            bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode)
+        {
+            Bind(targetPropertyExpression, bindPropertyExpression, formattingEnabled, dataSourceUpdateMode,
+                string.Empty, null);
+        }
+
+        /// <summary>
+        /// プロパティをバインドします。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="targetPropertyExpression">バインド対象とするプロパティの式木。</param>
+        /// <param name="bindPropertyExpression">バインドする値の式木。</param>
+        /// <param name="formattingEnabled">表示されるデータの書式を指定する場合は true。それ以外の場合は false。既定は false です。</param>
+        /// <param name="dataSourceUpdateMode"><see cref="DataSourceUpdateMode"/> 値のいずれか 1 つ。既定は <see cref="DataSourceUpdateMode.OnPropertyChanged"/> です。</param>
+        /// <param name="formatString">値の表示方法を示す 1 つ以上の書式指定子文字。既定は <see cref="string.Empty"/> です。</param>
+        public static void Bind<T, U>(Expression<Func<T>> targetPropertyExpression, Expression<Func<U>> bindPropertyExpression,
+            bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, string formatString)
+        {
+            Bind(targetPropertyExpression, bindPropertyExpression, formattingEnabled, dataSourceUpdateMode,
+                formatString, null);
+        }
+
+        /// <summary>
+        /// プロパティをバインドします。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="targetPropertyExpression">バインド対象とするプロパティの式木。</param>
+        /// <param name="bindPropertyExpression">バインドする値の式木。</param>
+        /// <param name="formattingEnabled">表示されるデータの書式を指定する場合は true。それ以外の場合は false。既定は false です。</param>
+        /// <param name="dataSourceUpdateMode"><see cref="DataSourceUpdateMode"/> 値のいずれか 1 つ。既定は <see cref="DataSourceUpdateMode.OnPropertyChanged"/> です。</param>
+        /// <param name="formatString">値の表示方法を示す 1 つ以上の書式指定子文字。既定は <see cref="string.Empty"/> です。</param>
+        /// <param name="formatInfo">既定の書式指定動作をオーバーライドする <see cref="IFormatProvider"/> の実装。既定は null です。</param>
+        public static void Bind<T, U>(Expression<Func<T>> targetPropertyExpression, Expression<Func<U>> bindPropertyExpression,
+            bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode, string formatString,
+            IFormatProvider formatInfo)
         {
             (object Control, string PropertyName) ResolveLambda<V>(Expression<Func<V>> expression)
             {
                 var lambda = expression as LambdaExpression;
-                if (lambda == null) throw new ArgumentException("There is an error in your lambda expression.");
+                if (lambda == null)
+                {
+                    throw new ArgumentException("There is an error in your lambda expression.");
+                }
                 var property = lambda.Body as MemberExpression;
-                if (property == null) throw new ArgumentException("It was not possible to obtain a member from a lambda expression.");
+                if (property == null)
+                {
+                    throw new ArgumentException("It was not possible to obtain a member from a lambda expression.");
+                }
                 var parent = property.Expression;
                 return (Expression.Lambda(parent).Compile().DynamicInvoke(), property.Member.Name);
             }
-            var tuple1 = ResolveLambda(bindingProperty);
-            var tuple2 = ResolveLambda(bindExpression);
-            var control = tuple1.Control as Control;
-            //var control2 = tuple1.Item1 as AutoCompleteBox;
-            //if (control == null && control2 == null) throw new ArgumentException();
 
-            //if (control != null)
-            //{
-            //    // 既に設定済みのバインドを解除する
-            //    var binding = control.DataBindings[tuple1.Item2];
-            //    if (binding != null)
-            //    {
-            //        control.DataBindings.Remove(binding);
-            //    }
+            var targetControlInfo = ResolveLambda(targetPropertyExpression);
+            var expressionObjectInfo = ResolveLambda(bindPropertyExpression);
 
-            //    // NOTE: UIのプロパティがNullableの場合、正しくデータバインドできないため、formattingEnabled を true とする。
-            //    control.DataBindings.Add(new Binding(tuple1.Item2, tuple2.Item1, tuple2.Item2, true, DataSourceUpdateMode.OnPropertyChanged));
-            //}
-            //else
-            //{
-            //    // 既に設定済みのバインドを解除する
-            //    var binding = control2.DataBindings[tuple1.Item2];
-            //    if (binding != null)
-            //    {
-            //        control2.DataBindings.Remove(binding);
-            //    }
-
-            //    // NOTE: UIのプロパティがNullableの場合、正しくデータバインドできないため、formattingEnabled を true とする。
-            //    control2.DataBindings.Add(new Binding(tuple1.Item2, tuple2.Item1, tuple2.Item2, true, DataSourceUpdateMode.OnPropertyChanged));
-            //}
-
-            if (control == null) throw new ArgumentException("The object resulting from a lambda expression is not a Control object.");
-
-            // 既に設定済みのバインドは強制的に解除する
-            var binding = control.DataBindings[tuple1.PropertyName];
-            if (binding != null)
+            var control = targetControlInfo.Control as Control;
+            if (control == null)
             {
-                control.DataBindings.Remove(binding);
+                throw new ArgumentException("The object resulting from a lambda expression is not a Control object.");
             }
 
-            // NOTE: UIにバインドされるプロパティがNullableの場合、正しくデータバインドできないため、formattingEnabled を true とする。
-            control.DataBindings.Add(new Binding(tuple1.PropertyName, tuple2.Control, tuple2.PropertyName, true, DataSourceUpdateMode.OnPropertyChanged));
+            var binding = new Binding(targetControlInfo.PropertyName, expressionObjectInfo.Control, expressionObjectInfo.PropertyName);
+            binding.FormattingEnabled = formattingEnabled;
+            binding.FormatString = formatString;
+            binding.DataSourceUpdateMode = dataSourceUpdateMode;
+            binding.FormatInfo = formatInfo;
+
+            control.DataBindings.Add(binding);
         }
 
         /// <summary>
-        /// ラベルの値バインドを行います。
+        /// コントロールのテキストをバインドします。
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="label">ラベルオブジェクト。</param>
-        /// <param name="expression">値のExpression。</param>
-        public static void Bind<T>(this Label label, Expression<Func<T>> expression)
+        /// <param name="control">コントロールオブジェクト。</param>
+        /// <param name="expression">バインドする値の式木。</param>
+        public static void BindText<T>(this Control control, Expression<Func<T>> expression)
         {
-            Bind(() => label.Text, expression);
-        }
-
-        ///// <summary>
-        ///// 数値ラベルの値バインドを行います。
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="label">ラベルオブジェクト。</param>
-        ///// <param name="expression">値のExpression。</param>
-        //public static void Bind<T>(this MetNumericLabel label, Expression<Func<T>> expression)
-        //{
-        //    Bind(() => label.Value, expression);
-        //}
-
-        /// <summary>
-        /// テキストボックスの値バインドを行います。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="textBox">テキストボックスオブジェクト。</param>
-        /// <param name="expression">値のExpression。</param>
-        public static void Bind<T>(this TextBoxBase textBox, Expression<Func<T>> expression)
-        {
-            Bind(() => textBox.Text, expression);
-        }
-
-        ///// <summary>
-        ///// 数値テキストボックスの値バインドを行います。
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="textBox">テキストボックスオブジェクト。</param>
-        ///// <param name="expression">値のExpression。</param>
-        //public static void Bind<T>(this MetNumericTextBox textBox, Expression<Func<T>> expression)
-        //{
-        //    Bind(() => textBox.Value, expression);
-        //}
-
-        /// <summary>
-        /// 日付ピッカーの値バインドを行います。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dateTimePicker">日付ピッカーオブジェクト。</param>
-        /// <param name="expression">値のExpression。</param>
-        public static void Bind<T>(this DateTimePicker dateTimePicker, Expression<Func<T>> expression)
-        {
-            Bind(() => dateTimePicker.Value, expression);
-        }
-
-        /// <summary>
-        /// ラジオボタンの値バインドを行います。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="radioButton">ラジオボタンオブジェクト。</param>
-        /// <param name="expression">値のExpression。</param>
-        public static void Bind<T>(this RadioButton radioButton, Expression<Func<T>> expression)
-        {
-            Bind(() => radioButton.Checked, expression);
-        }
-
-        /// <summary>
-        /// コンボボックスの値バインドを行います。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="comboBox">コンボボックスオブジェクト。</param>
-        /// <param name="expression">値のExpression。</param>
-        public static void Bind<T>(this ComboBox comboBox, Expression<Func<T>> expression)
-        {
-            Bind(() => comboBox.SelectedItem, expression);
-        }
-
-        /// <summary>
-        /// コンボボックスのデータソースバインドを行います。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="listControl">リストコントロールオブジェクト。</param>
-        /// <param name="expression">値のExpression。</param>
-        /// <param name="valueMember">値のメンバ名。</param>
-        /// <param name="displayMenber">表示値のメンバ名。</param>
-        public static void BindDataSource<T>(this ListControl listControl, Expression<Func<T>> expression, string valueMember, string displayMenber)
-        {
-            Bind(() => listControl.DataSource, expression);
-            listControl.ValueMember = valueMember;
-            listControl.DisplayMember = displayMenber;
-        }
-
-        /// <summary>
-        /// リストコントロールのクリックバインドを行います。
-        /// </summary>
-        /// <param name="listControl">リストコントロールオブジェクト。</param>
-        /// <param name="command">コマンド。</param>
-        public static void Bind(this ListControl listControl, ReactiveCommand command)
-        {
-            command.CanExecuteChanged += (sender, args) => listControl.Enabled = command.CanExecute();
-            listControl.Click += (sender, args) => command.Execute();
-
-            // 初期状態を決定
-            listControl.Enabled = command.CanExecute();
-        }
-
-        /// <summary>
-        /// リストコントロールのクリックバインドを行います。
-        /// </summary>
-        /// <param name="listControl">リストコントロールオブジェクト。</param>
-        /// <param name="command">コマンド。</param>
-        public static void Bind(this ListControl listControl, AsyncReactiveCommand command)
-        {
-            command.CanExecuteChanged += (sender, args) => listControl.Enabled = command.CanExecute();
-            listControl.Click += (sender, args) => command.Execute();
-
-            // 初期状態を決定
-            listControl.Enabled = command.CanExecute();
-        }
-
-        /// <summary>
-        /// ボタンの実行バインドを行います。
-        /// </summary>
-        /// <param name="button">ボタンオブジェクト。</param>
-        /// <param name="command">コマンド。</param>
-        public static void Bind(this Button button, ReactiveCommand command)
-        {
-            command.CanExecuteChanged += (sender, args) => button.Enabled = command.CanExecute();
-            button.Click += (sender, args) => command.Execute();
-
-            // 初期状態を決定
-            button.Enabled = command.CanExecute();
-        }
-
-        /// <summary>
-        /// ボタンの実行バインドを行います。
-        /// </summary>
-        /// <param name="button">ボタンオブジェクト。</param>
-        /// <param name="command">コマンド。</param>
-        public static void Bind(this Button button, AsyncReactiveCommand command)
-        {
-            command.CanExecuteChanged += (sender, args) => button.Enabled = command.CanExecute();
-            button.Click += (sender, args) => command.Execute();
-
-            // 初期状態を決定
-            button.Enabled = command.CanExecute();
+            Bind(() => control.Text, expression);
         }
 
         /// <summary>
         /// コントロールの活性バインドを行います。
         /// </summary>
         /// <param name="control">コントロールオブジェクト。</param>
-        /// <param name="expression">値のExpression。</param>
+        /// <param name="expression">バインドする値の式木。</param>
         public static void BindEnabled<T>(this Control control, Expression<Func<T>> expression)
         {
             Bind(() => control.Enabled, expression);
@@ -235,10 +147,122 @@ namespace Metroit.Mvvm.WinForms.ReactiveProperty.Extensions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="control">コントロールオブジェクト。</param>
-        /// <param name="expression">値のExpression。</param>
+        /// <param name="expression">バインドする値の式木。</param>
         public static void BindVisible<T>(this Control control, Expression<Func<T>> expression)
         {
             Bind(() => control.Visible, expression);
+        }
+
+        /// <summary>
+        /// コントロールのクリックをバインドします。
+        /// </summary>
+        /// <param name="control">コントロールオブジェクト。</param>
+        /// <param name="command">コマンド。</param>
+        public static void BindClick(this Control control, ReactiveCommand command)
+        {
+            command.CanExecuteChanged += (sender, args) => control.Enabled = command.CanExecute();
+            control.Click += (sender, args) => command.Execute();
+
+            // 初期状態を決定
+            control.Enabled = command.CanExecute();
+        }
+
+        /// <summary>
+        /// コントロールのクリックをバインドします。
+        /// 
+        /// </summary>
+        /// <param name="control">コントロールオブジェクト。</param>
+        /// <param name="command">コマンド。</param>
+        public static void BindClick(this Control control, AsyncReactiveCommand command)
+        {
+            command.CanExecuteChanged += (sender, args) => control.Enabled = command.CanExecute();
+            control.Click += (sender, args) => command.Execute();
+
+            // 初期状態を決定
+            control.Enabled = command.CanExecute();
+        }
+
+#if NET7_0_OR_GREATER
+        /// <summary>
+        /// ボタンのクリックをバインドします。
+        /// バインドの制御は <paramref name="command"/> に依存します。
+        /// </summary>
+        /// <param name="button">ボタンオブジェクト。</param>
+        /// <param name="command">コマンド。</param>
+        public static void BindClickByCommand(this Button button, ICommand command)
+        {
+            button.Command = command;
+        }
+#endif
+
+        /// <summary>
+        /// 日付ピッカーの値をバインドします。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dateTimePicker">日付ピッカーオブジェクト。</param>
+        /// <param name="expression">バインドする値の式木。</param>
+        public static void BindValue<T>(this DateTimePicker dateTimePicker, Expression<Func<T>> expression)
+        {
+            Bind(() => dateTimePicker.Value, expression);
+        }
+
+        /// <summary>
+        /// チェックボックスのチェック状態をバインドします。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="checkBox">チェックボックスオブジェクト。</param>
+        /// <param name="expression">バインドする値の式木。</param>
+        public static void BindChecked<T>(this CheckBox checkBox, Expression<Func<T>> expression)
+        {
+            Bind(() => checkBox.Checked, expression);
+        }
+
+        /// <summary>
+        /// チェックボックスの状態をバインドします。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="checkBox">チェックボックスオブジェクト。</param>
+        /// <param name="expression">バインドする値の式木。</param>
+        public static void BindCheckState<T>(this CheckBox checkBox, Expression<Func<T>> expression)
+        {
+            Bind(() => checkBox.CheckState, expression);
+        }
+
+        /// <summary>
+        /// ラジオボタンのチェック状態をバインドします。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="radioButton">ラジオボタンオブジェクト。</param>
+        /// <param name="expression">バインドする値の式木。</param>
+        public static void BindChecked<T>(this RadioButton radioButton, Expression<Func<T>> expression)
+        {
+            Bind(() => radioButton.Checked, expression);
+        }
+
+        /// <summary>
+        /// コンボボックスの選択値をバインドします。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="comboBox">コンボボックスオブジェクト。</param>
+        /// <param name="expression">バインドする値の式木。</param>
+        public static void BindSelectedItem<T>(this ComboBox comboBox, Expression<Func<T>> expression)
+        {
+            Bind(() => comboBox.SelectedItem, expression);
+        }
+
+        /// <summary>
+        /// リストコントロールのデータソースバインドを行います。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="listControl">リストコントロールオブジェクト。</param>
+        /// <param name="expression">バインドする値の式木。</param>
+        /// <param name="valueMember">値のメンバ名。</param>
+        /// <param name="displayMenber">表示値のメンバ名。</param>
+        public static void BindDataSource<T>(this ListControl listControl, Expression<Func<T>> expression, string valueMember, string displayMenber)
+        {
+            Bind(() => listControl.DataSource, expression);
+            listControl.ValueMember = valueMember;
+            listControl.DisplayMember = displayMenber;
         }
     }
 }

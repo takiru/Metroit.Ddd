@@ -1,32 +1,52 @@
-using Metroit.DDD.ContentRoot;
+ï»¿using Metroit.DDD.ContentRoot;
 using Metroit.DDD.Domain.Annotations;
 using Metroit.DDD.Domain.ValueObjects;
-using Metroit.MVVM.WinForms.Views;
+using Metroit.Mvvm.WinForms.ReactiveProperty.Extensions;
+using Metroit.Mvvm.WinForms.ReactiveProperty.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Reactive.Bindings;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Test
 {
     public partial class Form1 : ViewBase
     {
-        private new Form1ViewModel ViewModel => (Form1ViewModel)base.ViewModel;
+        //private new Form1ViewModel ViewModel => (Form1ViewModel)base.ViewModel;
+        private new Form1ViewModel ViewModel = new Form1ViewModel();
+
 
         public Form1()
         {
             DIConfigration.Configure();
 
-            // launchSettings.json ‚ğ“Ç‚İ‚ß‚éI
+            // launchSettings.json ã‚’èª­ã¿è¾¼ã‚ã‚‹ï¼
             var host = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Build();
             var env = host.Services.GetRequiredService<IHostEnvironment>();
 
             InitializeComponent();
+
+            textBox1.BindText(() => ViewModel.Text.Value);
+            button1.BindClick(ViewModel.TestCommand);
+            
+            //textBox1.Bind(() => ViewModel.Text.Value);
+            //button1.Bind(ViewModel.TestCommand);
         }
 
-        public Form1(Form1ViewModel viewModel) : base(viewModel)
-        {
-            InitializeComponent();
-        }
+        //public Form1(Form1ViewModel viewModel) : base(viewModel)
+        //{
+        //    InitializeComponent();
+        //}
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -46,7 +66,7 @@ namespace Test
                 //var b = new Fuga(123, "value1", FugaType.Special);
                 //if (a == b)
                 //{
-                //    MessageBox.Show("‚¨‚È‚¶");
+                //    MessageBox.Show("ãŠãªã˜");
                 //}
                 MessageBox.Show(a.ToString());
                 MessageBox.Show(a.Value2.ToString());
@@ -56,33 +76,38 @@ namespace Test
                 MessageBox.Show(ex.GetType().ToString() + "\r\n" + ex.Message);
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(ViewModel.Text.Value);
+        }
     }
 
-    [VORequired(ErrorMessage = "{0}‚Í•K{‚Å‚·B")]
+    [VORequired(ErrorMessage = "{0}ã¯å¿…é ˆã§ã™ã€‚")]
     //[VORequired(ErrorMessageResourceName = "HogeMessage", ErrorMessageResourceType = typeof(Resource1))]
-    //[VOMaxLength(5, ErrorMessage = "{0}‚Í{1}Œ…‚Ü‚Å")]   // null ‹ó•¶š‚Í‹–—e‚³‚ê‚é
+    //[VOMaxLength(5, ErrorMessage = "{0}ã¯{1}æ¡ã¾ã§")]   // null ç©ºæ–‡å­—ã¯è¨±å®¹ã•ã‚Œã‚‹
     //[VOMaxLength(5, ErrorMessageResourceName = "FugaMessage", ErrorMessageResourceType = typeof(Resource1))]
-    //[VOMinLength(2, ErrorMessage = "2Œ…ˆÈã")]     // null ‚¾‚¯‹–—e‚³‚ê‚é
-    //[VORegularExpression(@"^[0-9]+$", ErrorMessage = "{0}‚Í”’l‚Ì‚İ‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B")]       // null ‹ó•¶š‚Í‹–—e‚³‚ê‚é
-    [Display(Name = " DisplayName‚Åİ’è‚µ‚½–¼‘O")]
-    //[VOLength(2, 5, ErrorMessage = "{0} ‚Í {1}Œ…ˆÈã{2}Œ…ˆÈ‰º‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B")]
-    //[VOStringLength(1, ErrorMessage = "{0}‚Í{1}Œ…‚Ü‚Å")]
+    //[VOMinLength(2, ErrorMessage = "2æ¡ä»¥ä¸Š")]     // null ã ã‘è¨±å®¹ã•ã‚Œã‚‹
+    //[VORegularExpression(@"^[0-9]+$", ErrorMessage = "{0}ã¯æ•°å€¤ã®ã¿ã§å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚")]       // null ç©ºæ–‡å­—ã¯è¨±å®¹ã•ã‚Œã‚‹
+    [Display(Name = " DisplayNameã§è¨­å®šã—ãŸåå‰")]
+    //[VOLength(2, 5, ErrorMessage = "{0} ã¯ {1}æ¡ä»¥ä¸Š{2}æ¡ä»¥ä¸‹ã§å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚")]
+    //[VOStringLength(1, ErrorMessage = "{0}ã¯{1}æ¡ã¾ã§")]
     public class Hoge : SingleValueObject<string>
     {
         //public string Value { get; set; }
 
-        //[VORequired(ErrorMessage = "{0}‚Í•K{‚Å‚·B")]
-        ////[VOMaxLength(2, ErrorMessage = "{0} ‚Í{1} Œ…‚Ü‚Å")]
-        //[Display(Name = " Fuga ‚ÌDisplayName")]
+        //[VORequired(ErrorMessage = "{0}ã¯å¿…é ˆã§ã™ã€‚")]
+        ////[VOMaxLength(2, ErrorMessage = "{0} ã¯{1} æ¡ã¾ã§")]
+        //[Display(Name = " Fuga ã®DisplayName")]
         //public string Fuga { get; set; }
 
-        ////[VORange(typeof(DateTime), "2025/01/01 12:23:34", "2025/12/31", "yyyy/MM/dd", ErrorMessage = "{0} ‚Í {1} ‚©‚ç {2} ‚Ü‚Å")]
-        //[Display(Name = "Piyo‚ÌDisplayName")]
+        ////[VORange(typeof(DateTime), "2025/01/01 12:23:34", "2025/12/31", "yyyy/MM/dd", ErrorMessage = "{0} ã¯ {1} ã‹ã‚‰ {2} ã¾ã§")]
+        //[Display(Name = "Piyoã®DisplayName")]
         //public DateTime Piyo { get; set; }
 
-        //[Display(Name = "Yoka‚ÌDisplayName")]
-        ////[VOEmailAddress(false, ErrorMessage = "{0}‚Íƒ[ƒ‹ƒAƒhƒŒƒXŒ`®‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B")]
-        ////[VOMaxLength(2, ErrorMessage = "{0}‚Í{1}Œ…‚Ü‚Å")]
+        //[Display(Name = "Yokaã®DisplayName")]
+        ////[VOEmailAddress(false, ErrorMessage = "{0}ã¯ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹å½¢å¼ã§å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚")]
+        ////[VOMaxLength(2, ErrorMessage = "{0}ã¯{1}æ¡ã¾ã§")]
         //public char[] Yoka { get; set; }
 
         public Hoge(string value) : base(value)
@@ -99,13 +124,13 @@ namespace Test
 
     public class Fuga : MultiValueObject
     {
-        //[VORange(1, 10, ErrorMessage = "{0}‚Í{1}‚©‚ç{2}‚Ì”ÍˆÍ‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B")]
+        //[VORange(1, 10, ErrorMessage = "{0}ã¯{1}ã‹ã‚‰{2}ã®ç¯„å›²ã§å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚")]
         [VORange(1, 200, ErrorMessageResourceName = "FugaValue2Message", ErrorMessageResourceType = typeof(Resource1))]
         [VOFeedOrder(0)]
-        [Display(Name = "Value1‚ÌDisplayName")]
+        [Display(Name = "Value1ã®DisplayName")]
         public int? Value1 { get; private set; }
 
-        [MinLength(1, ErrorMessage = "10•¶šˆÈã")]
+        [MinLength(1, ErrorMessage = "10æ–‡å­—ä»¥ä¸Š")]
         [VOFeedOrder(1)]
         public string Value2 { get; private set; }
 
