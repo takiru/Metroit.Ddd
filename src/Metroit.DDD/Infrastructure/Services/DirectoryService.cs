@@ -1,4 +1,4 @@
-﻿using Metroit.Ddd.Application.Services;
+﻿using Metroit.Ddd.Application.Interfaces;
 using System;
 using System.IO;
 

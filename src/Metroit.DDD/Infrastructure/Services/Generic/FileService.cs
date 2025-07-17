@@ -1,4 +1,4 @@
-﻿using Metroit.Ddd.Application.Services.Generic;
+﻿using Metroit.Ddd.Application.Interfaces.Generic;
 using Metroit.Ddd.Domain.ValueObjects;
 using System;
 using System.IO;

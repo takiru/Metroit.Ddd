@@ -2,13 +2,13 @@
 Useful instructions for Domain driven design
 
 ## 用意された命令
-Application.Services.IStorageService  
-Application.Services.Generic.IStorageService  
+Application.Interfaces.IStorageService  
+Application.Interfaces.IUnitOfWork  
+Application.Interfaces.Generic.IStorageService  
 ContentRoot.DIConfigration  
 ContentRoot.DIConfigurationBuilder  
 ContentRoot.DIConfigurationServiceBuilder  
 ContentRoot.IDITypeConfiguration  
-Domain.IUnitOfWork  
 Domain.Annotations.VOEmailAddressAttribute  
 Domain.Annotations.VOFeedOrderAttribute  
 Domain.Annotations.VOGreaterThanAttribute  
@@ -24,6 +24,10 @@ Domain.ValueObjects.ISingleValueObject
 Domain.ValueObjects.MultiValueObject  
 Domain.ValueObjects.SingleValueObject  
 Domain.ValueObjects.ValueObject  
+Infrastructure.Services.DirectoryService  
+Infrastructure.Services.FileService  
+Infrastructure.Services.Generic.DirectoryService    
+Infrastructure.Services.Generic.FileService  
 
 ## 単一のValueObject
 ```cs

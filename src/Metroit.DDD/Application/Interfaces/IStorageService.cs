@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Metroit.Ddd.Application.Services
+namespace Metroit.Ddd.Application.Interfaces
 {
     /// <summary>
     /// ストレージ操作を提供します。

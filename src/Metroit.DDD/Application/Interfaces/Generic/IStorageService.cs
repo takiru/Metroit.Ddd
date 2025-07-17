@@ -1,7 +1,7 @@
 ﻿using Metroit.Ddd.Domain.ValueObjects;
 using System;
 
-namespace Metroit.Ddd.Application.Services.Generic
+namespace Metroit.Ddd.Application.Interfaces.Generic
 {
     /// <summary>
     /// ストレージ操作を提供します。

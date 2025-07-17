@@ -1,4 +1,4 @@
-﻿using Metroit.Ddd.Domain;
+﻿using Metroit.Ddd.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 

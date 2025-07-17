@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Metroit.Ddd.Domain
+namespace Metroit.Ddd.Application.Interfaces
 {
     /// <summary>
     /// ユニットオブワークを提供します。
