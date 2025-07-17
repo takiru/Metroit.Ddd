@@ -1,39 +1,29 @@
-﻿using Metroit.DDD.ContentRoot;
-using Metroit.DDD.Domain.Annotations;
-using Metroit.DDD.Domain.ValueObjects;
-using Metroit.Mvvm.WinForms.Extensions;
-using Metroit.Mvvm.WinForms.ReactiveProperty.Views;
+﻿using Metroit.Ddd.Domain.Annotations;
+using Metroit.Ddd.Domain.ValueObjects;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Test
 {
-    public partial class Form1 : ViewBase
+    public partial class Form1 : Form
     {
-        //private new Form1ViewModel ViewModel => (Form1ViewModel)base.ViewModel;
-        private new Form1ViewModel ViewModel = new Form1ViewModel();
-
-
         public Form1()
         {
+            InitializeComponent();
+
             try
             {
-                DIConfigration.Configure();
+                var di = new TestDIConfiguration();
+                di.Configure();
 
                 // launchSettings.json を読み込める！
-                var host = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Build();
-                var env = host.Services.GetRequiredService<IHostEnvironment>();
+                var b = di.Host.Services.GetRequiredService<IConfiguration>();
+                Debug.WriteLine(b["CommandArgs1"]);
 
-                InitializeComponent();
-
-                textBox1.BindText(() => ViewModel.Text.Value);
-                button1.BindClick(ViewModel.TestCommand);
-
-                //textBox1.Bind(() => ViewModel.Text.Value);
-                //button1.Bind(ViewModel.TestCommand);
+                var env = di.Host.Services.GetRequiredService<IHostEnvironment>();
 
             }
             catch (Exception ex)
@@ -42,22 +32,11 @@ namespace Test
             }
         }
 
-        //public Form1(Form1ViewModel viewModel) : base(viewModel)
-        //{
-        //    InitializeComponent();
-        //}
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
                 //CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
-
-
-                //var a = new RequiredAttribute();
-                //var b = new VORequiredAttribute();
-                //var c = new Hoge("a");
-                //MessageBox.Show("a");
 
                 var b = new Hoge("a@ao.co.jp");
 
@@ -78,7 +57,7 @@ namespace Test
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(ViewModel.Text.Value);
+
         }
     }
 

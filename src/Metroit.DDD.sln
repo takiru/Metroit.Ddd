@@ -3,25 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.DDD", "Metroit.DDD\Metroit.DDD.csproj", "{6E2CB135-0419-4152-BD0D-6EA22D689962}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Ddd", "Metroit.Ddd\Metroit.Ddd.csproj", "{6E2CB135-0419-4152-BD0D-6EA22D689962}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{0B57FA2F-25F0-4444-8E19-4D9D1274B1C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm.WinForms.ReactiveProperty", "Metroit.Mvvm.WinForms.ReactiveProperty\Metroit.Mvvm.WinForms.ReactiveProperty.csproj", "{772605B8-203F-4694-843F-371F0CEDC76E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNet48", "TestNet48\TestNet48.csproj", "{2BCCE8F6-B056-4AF7-898D-7E5C47BA96C8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNet48Old", "TestNet48Old\TestNet48Old.csproj", "{1DB4B851-EA1F-4982-A004-98793CB6A3EC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm", "Metroit.Mvvm\Metroit.Mvvm.csproj", "{777DA50B-199B-4F40-B365-C1DBADD6CBCE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm.Test", "Metroit.Mvvm.Test\Metroit.Mvvm.Test.csproj", "{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Mvvm.WinForms", "Metroit.Mvvm.WinForms\Metroit.Mvvm.WinForms.csproj", "{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.CommunityToolkit.Mvvm", "Metroit.CommunityToolkit.Mvvm\Metroit.CommunityToolkit.Mvvm.csproj", "{26FB66B2-3326-4556-AAD8-B21E964FDAFC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.CommunityToolkit.Mvvm.WinForms", "Metroit.CommunityToolkit.Mvvm.WinForms\Metroit.CommunityToolkit.Mvvm.WinForms.csproj", "{8B383139-776F-4B6D-BBE5-2305CD121AC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metroit.Ddd.EntityFrameworkCore", "Metroit.Ddd.EntityFrameworkCore\Metroit.Ddd.EntityFrameworkCore.csproj", "{E29F6163-2E48-A054-766B-4C360B80173E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,38 +23,10 @@ Global
 		{0B57FA2F-25F0-4444-8E19-4D9D1274B1C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B57FA2F-25F0-4444-8E19-4D9D1274B1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B57FA2F-25F0-4444-8E19-4D9D1274B1C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{772605B8-203F-4694-843F-371F0CEDC76E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{772605B8-203F-4694-843F-371F0CEDC76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{772605B8-203F-4694-843F-371F0CEDC76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{772605B8-203F-4694-843F-371F0CEDC76E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BCCE8F6-B056-4AF7-898D-7E5C47BA96C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BCCE8F6-B056-4AF7-898D-7E5C47BA96C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BCCE8F6-B056-4AF7-898D-7E5C47BA96C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BCCE8F6-B056-4AF7-898D-7E5C47BA96C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DB4B851-EA1F-4982-A004-98793CB6A3EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DB4B851-EA1F-4982-A004-98793CB6A3EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DB4B851-EA1F-4982-A004-98793CB6A3EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DB4B851-EA1F-4982-A004-98793CB6A3EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{777DA50B-199B-4F40-B365-C1DBADD6CBCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{777DA50B-199B-4F40-B365-C1DBADD6CBCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{777DA50B-199B-4F40-B365-C1DBADD6CBCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{777DA50B-199B-4F40-B365-C1DBADD6CBCE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F490EC1C-4212-452B-A4C2-D4A4E3EBCC52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B7B5EC0-DCEE-4919-9EEC-2D0D782D7FE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26FB66B2-3326-4556-AAD8-B21E964FDAFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B383139-776F-4B6D-BBE5-2305CD121AC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B383139-776F-4B6D-BBE5-2305CD121AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B383139-776F-4B6D-BBE5-2305CD121AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B383139-776F-4B6D-BBE5-2305CD121AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E29F6163-2E48-A054-766B-4C360B80173E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E29F6163-2E48-A054-766B-4C360B80173E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E29F6163-2E48-A054-766B-4C360B80173E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E29F6163-2E48-A054-766B-4C360B80173E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

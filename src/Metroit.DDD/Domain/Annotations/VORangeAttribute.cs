@@ -1,9 +1,9 @@
-﻿using Metroit.DDD.Domain.ValueObjects;
+﻿using Metroit.Ddd.Domain.ValueObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace Metroit.DDD.Domain.Annotations
+namespace Metroit.Ddd.Domain.Annotations
 {
     /// <summary>
     /// ValueObject クラスに指定された場合、または ValueObject クラス内のプロパティに指定された場合に、値の範囲を検証する属性です。
@@ -61,7 +61,7 @@ namespace Metroit.DDD.Domain.Annotations
         /// <summary>
         /// 新しいインスタンスを生成します。
         /// </summary>
-        /// <param name="length">テストするオブジェクトの型。</param>
+        /// <param name="type">テストするオブジェクトの型。</param>
         /// <param name="minimum">データ フィールド値の最小許容値。</param>
         /// <param name="maximum">データ フィールド値の最大許容値</param>
         public VORangeAttribute(Type type, string minimum, string maximum) : base(type, minimum, maximum)

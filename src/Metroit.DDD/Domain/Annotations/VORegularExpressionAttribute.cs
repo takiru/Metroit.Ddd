@@ -1,8 +1,8 @@
-﻿using Metroit.DDD.Domain.ValueObjects;
+﻿using Metroit.Ddd.Domain.ValueObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Metroit.DDD.Domain.Annotations
+namespace Metroit.Ddd.Domain.Annotations
 {
     /// <summary>
     /// ValueObject クラスに指定された場合、または ValueObject クラス内のプロパティに指定された場合に、値の正規表現フォーマットを検証する属性です。

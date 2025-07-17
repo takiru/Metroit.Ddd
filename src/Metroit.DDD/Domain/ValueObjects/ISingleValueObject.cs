@@ -1,4 +1,4 @@
-﻿namespace Metroit.DDD.Domain.ValueObjects
+﻿namespace Metroit.Ddd.Domain.ValueObjects
 {
     /// <summary>
     /// 単一の値オブジェクトのインターフェースを提供します。

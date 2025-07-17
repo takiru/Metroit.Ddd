@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Metroit.DDD.Domain.ValueObjects
+namespace Metroit.Ddd.Domain.ValueObjects
 {
     /// <summary>
     /// 単一の値オブジェクトの基底操作を提供します。

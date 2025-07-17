@@ -1,7 +1,7 @@
-﻿using Metroit.DDD.Domain.ValueObjects;
+﻿using Metroit.Ddd.Domain.ValueObjects;
 using System;
 
-namespace Metroit.DDD.Domain.Annotations
+namespace Metroit.Ddd.Domain.Annotations
 {
     /// <summary>
     /// <see cref="MultiValueObject"/> クラス内のプロパティまたはフィールドに指定された場合に、値を流し込む順序の重みを定義します。

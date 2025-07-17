@@ -1,9 +1,9 @@
-﻿using Metroit.DDD.Application.Services.Generic;
-using Metroit.DDD.Domain.ValueObjects;
+﻿using Metroit.Ddd.Application.Services.Generic;
+using Metroit.Ddd.Domain.ValueObjects;
 using System;
 using System.IO;
 
-namespace Metroit.DDD.Infrastructure.Services.Generic
+namespace Metroit.Ddd.Infrastructure.Services.Generic
 {
     /// <summary>
     /// ディレクトリ操作を提供します。

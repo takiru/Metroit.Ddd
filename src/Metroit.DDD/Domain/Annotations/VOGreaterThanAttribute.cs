@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Metroit.DDD.Domain.Annotations
+namespace Metroit.Ddd.Domain.Annotations
 {
     /// <summary>
     /// ValueObject クラス内のプロパティに指定された場合に、指定したプロパティより値が大きいかの比較を検証する属性です。

@@ -1,8 +1,8 @@
-﻿using Metroit.DDD.Application.Services;
+﻿using Metroit.Ddd.Application.Services;
 using System;
 using System.IO;
 
-namespace Metroit.DDD.Infrastructure.Services
+namespace Metroit.Ddd.Infrastructure.Services
 {
     /// <summary>
     /// ディレクトリ操作を提供します。

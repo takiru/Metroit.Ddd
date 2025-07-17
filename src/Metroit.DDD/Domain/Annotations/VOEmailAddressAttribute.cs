@@ -1,9 +1,9 @@
-﻿using Metroit.DDD.Domain.ValueObjects;
+﻿using Metroit.Ddd.Domain.ValueObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 
-namespace Metroit.DDD.Domain.Annotations
+namespace Metroit.Ddd.Domain.Annotations
 {
     /// <summary>
     /// ValueObject クラスに指定された場合、または ValueObject クラス内のプロパティに指定された場合に、値のメールアドレス形式を検証する属性です。

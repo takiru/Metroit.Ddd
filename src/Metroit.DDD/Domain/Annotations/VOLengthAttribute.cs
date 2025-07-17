@@ -1,9 +1,9 @@
-﻿using Metroit.DDD.Domain.ValueObjects;
+﻿using Metroit.Ddd.Domain.ValueObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace Metroit.DDD.Domain.Annotations
+namespace Metroit.Ddd.Domain.Annotations
 {
     /// <summary>
     /// ValueObject クラスに指定された場合、または ValueObject クラス内のプロパティに指定された場合に、値の最小長と最大長を検証する属性です。
@@ -24,7 +24,7 @@ namespace Metroit.DDD.Domain.Annotations
         /// <summary>
         /// 新しいインスタンスを生成します。
         /// </summary>
-        /// <param name="maximumLength">許容される最小長。</param>
+        /// <param name="minimumLength">許容される最小長。</param>
         /// <param name="maximumLength">許容される最大長。</param>
         public VOLengthAttribute(int minimumLength, int maximumLength) : base()
         {

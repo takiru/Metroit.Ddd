@@ -1,10 +1,10 @@
-﻿using Metroit.DDD.Domain.Annotations;
+﻿using Metroit.Ddd.Domain.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Metroit.DDD.Domain.ValueObjects
+namespace Metroit.Ddd.Domain.ValueObjects
 {
     /// <summary>
     /// 複数の値の値オブジェクトの基底操作を提供します。
@@ -48,7 +48,7 @@ namespace Metroit.DDD.Domain.ValueObjects
             var orderedMembers = new List<(VOFeedOrderAttribute OrderAttribute, MemberInfo Property)>(
                 GetType()
                 .GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
-                            BindingFlags.Static | BindingFlags.SetProperty | BindingFlags.SetField)
+                            BindingFlags.SetProperty | BindingFlags.SetField)
                 .Select(x => (Propperty: x, OrderAttribute: x.GetCustomAttribute<VOFeedOrderAttribute>()))
                 .Where(x => x.OrderAttribute != null)
                 .Select(x => (x.OrderAttribute, (MemberInfo)x.Propperty))

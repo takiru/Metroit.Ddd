@@ -2,6 +2,7 @@
   "profiles": {
     "Test": {
       "commandName": "Project",
+      "commandLineArgs": "--CommandArgs1 \"コマンドラインパラメーター\"",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace Metroit.DDD.Domain.ValueObjects
+namespace Metroit.Ddd.Domain.ValueObjects
 {
     /// <summary>
     /// 値オブジェクトの基底操作を提供します。
