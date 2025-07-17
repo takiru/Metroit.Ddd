@@ -48,19 +48,6 @@ namespace Metroit.DDD.Domain.Annotations
         }
 
         /// <summary>
-        /// 値の長さが最小長と最大長の範囲内にあるかどうかを検証します。
-        /// </summary>
-        /// <param name="value">検証値。</param>
-        /// <returns>妥当な場合は true, それ以外は false を返却します。</returns>
-        public override bool IsValid(object value)
-        {
-            CheckLegalLengths();
-
-            int length = value == null ? 0 : ((string)value).Length;
-            return value == null || (length >= MinimumLength && length <= MaximumLength);
-        }
-
-        /// <summary>
         /// ValueObject クラスに指定された場合、または ValueObject クラス内のプロパティに指定された場合に、値が有効かどうかを検証します。
         /// </summary>
         /// <param name="value">検証値。</param>
@@ -71,7 +58,7 @@ namespace Metroit.DDD.Domain.Annotations
             // ValueObject クラスに指定された場合
             if (value is ISingleValueObject innerValue)
             {
-                if (IsValid(innerValue.Value))
+                if (IsValidValue(innerValue.Value))
                 {
                     return ValidationResult.Success;
                 }
@@ -81,7 +68,7 @@ namespace Metroit.DDD.Domain.Annotations
             }
 
             // ValueObject クラス内のプロパティに指定された場合
-            if (IsValid(value))
+            if (IsValidValue(value))
             {
                 return ValidationResult.Success;
             }
@@ -91,12 +78,25 @@ namespace Metroit.DDD.Domain.Annotations
         }
 
         /// <summary>
+        /// 値の長さが最小長と最大長の範囲内にあるかどうかを検証する。
+        /// </summary>
+        /// <param name="value">検証値。</param>
+        /// <returns>妥当な場合は true, それ以外は false を返却する。</returns>
+        private bool IsValidValue(object value)
+        {
+            CheckLegalLengths();
+
+            int length = value == null ? 0 : ((string)value).Length;
+            return value == null || (length >= MinimumLength && length <= MaximumLength);
+        }
+
+        /// <summary>
         /// 値の最小長と最大長が適切な値であることを確認する。
         /// </summary>
         /// <exception cref="InvalidOperationException">MaximunLength が 0 未満もしくは MaximunLength が MinimumLength より小さい場合に発生する。</exception>
         private void CheckLegalLengths()
         {
-            if (this.MaximumLength < 0)
+            if (MaximumLength < 0)
             {
                 throw new InvalidOperationException("The maximum length must be a nonnegative integer.");
             }

@@ -19,19 +19,27 @@ namespace Test
 
         public Form1()
         {
-            DIConfigration.Configure();
+            try
+            {
+                DIConfigration.Configure();
 
-            // launchSettings.json を読み込める！
-            var host = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Build();
-            var env = host.Services.GetRequiredService<IHostEnvironment>();
+                // launchSettings.json を読み込める！
+                var host = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Build();
+                var env = host.Services.GetRequiredService<IHostEnvironment>();
 
-            InitializeComponent();
+                InitializeComponent();
 
-            textBox1.BindText(() => ViewModel.Text.Value);
-            button1.BindClick(ViewModel.TestCommand);
+                textBox1.BindText(() => ViewModel.Text.Value);
+                button1.BindClick(ViewModel.TestCommand);
 
-            //textBox1.Bind(() => ViewModel.Text.Value);
-            //button1.Bind(ViewModel.TestCommand);
+                //textBox1.Bind(() => ViewModel.Text.Value);
+                //button1.Bind(ViewModel.TestCommand);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         //public Form1(Form1ViewModel viewModel) : base(viewModel)
@@ -51,9 +59,9 @@ namespace Test
                 //var c = new Hoge("a");
                 //MessageBox.Show("a");
 
-                //var b = new Hoge("");
+                var b = new Hoge("a@ao.co.jp");
 
-                var a = new Fuga(1, "value1", FugaType.Special);
+                var a = new Fuga(2, 2, "value1", FugaType.Special);
                 //var b = new Fuga(123, "value1", FugaType.Special);
                 //if (a == b)
                 //{
@@ -83,6 +91,7 @@ namespace Test
     [Display(Name = " DisplayNameで設定した名前")]
     //[VOLength(2, 5, ErrorMessage = "{0} は {1}桁以上{2}桁以下で入力してください。")]
     //[VOStringLength(1, ErrorMessage = "{0}は{1}桁まで")]
+    //[VOEmailAddress(ErrorMessage = "形式が不正")]
     public class Hoge : SingleValueObject<string>
     {
         //public string Value { get; set; }
@@ -101,15 +110,24 @@ namespace Test
         ////[VOMaxLength(2, ErrorMessage = "{0}は{1}桁まで")]
         //public char[] Yoka { get; set; }
 
-        public Hoge(string value) : base(value)
-        {
-            //Value = value;
-            //Fuga = "Fuga";
-            //Piyo = new DateTime(2024, 1, 1);
-            //Yoka = ['a', 'b', 'c'];
+        //public Hoge(string value) : base(value)
+        //{
+        //    //Value = value;
+        //    //Fuga = "Fuga";
+        //    //Piyo = new DateTime(2024, 1, 1);
+        //    //Yoka = ['a', 'b', 'c'];
 
-            //Validator.ValidateObject(this, new ValidationContext(this), validateAllProperties: true);
-            //ValidateObject();
+        //    //Validator.ValidateObject(this, new ValidationContext(this), validateAllProperties: true);
+        //    //ValidateObject();
+        //}
+
+        public Hoge(string value) : base(false, value)
+        {
+            ICollection<ValidationResult> r;
+            if (!TryValidateObject(out r))
+            {
+                throw new ArgumentException(r.First().ErrorMessage);
+            }
         }
     }
 
@@ -119,16 +137,20 @@ namespace Test
         [VORange(1, 200, ErrorMessageResourceName = "FugaValue2Message", ErrorMessageResourceType = typeof(Resource1))]
         [VOFeedOrder(0)]
         [Display(Name = "Value1のDisplayName")]
+        //[VOLessThan(nameof(Value3), true, ErrorMessage = $"{nameof(Value3)} より大きい")]
         public int? Value1 { get; private set; }
 
-        [MinLength(1, ErrorMessage = "10文字以上")]
         [VOFeedOrder(1)]
+        public int? Value3 { get; private set; }
+
+        [MinLength(1, ErrorMessage = "10文字以上")]
+        [VOFeedOrder(2)]
         public string Value2 { get; private set; }
 
-        [VOFeedOrder(2)]
+        [VOFeedOrder(3)]
         public FugaType? FugaType { get; private set; }
 
-        public Fuga(int? value1, string value2, FugaType? fugaType) : base(value1, value2, fugaType)
+        public Fuga(int? value1, int? value3, string value2, FugaType? fugaType) : base(value1, value3, value2, fugaType)
         {
 
         }

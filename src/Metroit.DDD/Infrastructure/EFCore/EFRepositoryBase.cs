@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Metroit.DDD.Infrastructure.EF
+namespace Metroit.DDD.Infrastructure.EFCore
 {
     /// <summary>
     /// Entity Framework Coreのリポジトリの基本操作を提供します。

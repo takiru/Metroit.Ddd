@@ -22,14 +22,14 @@ namespace Metroit.DDD.Domain.ValueObjects
         /// 新しいインスタンスを生成します。値は即時検証されます。
         /// </summary>
         /// <param name="value">値。</param>
-        protected SingleValueObject(T value) : this(value, true) { }
+        protected SingleValueObject(T value) : this(true, value) { }
 
         /// <summary>
         /// 新しいインスタンスを生成します。
         /// </summary>
+        /// <param name="validate">即時検証を行う場合は true, 行わない場合は false を指定します。</param>
         /// <param name="value">値。</param>
-        /// <param name="validate">即時検証を行うかどうか。</param>
-        protected SingleValueObject(T value, bool validate)
+        protected SingleValueObject(bool validate, T value)
         {
             Value = value;
 

@@ -97,9 +97,6 @@ namespace Metroit.DDD.Domain.ValueObjects
         /// </summary>
         protected void ValidateObject()
         {
-            var r = new List<ValidationResult>();
-            var b = Validator.TryValidateObject(this, new ValidationContext(this), r, true);
-
             Validator.ValidateObject(this, new ValidationContext(this), true);
         }
 
@@ -108,7 +105,7 @@ namespace Metroit.DDD.Domain.ValueObjects
         /// </summary>
         /// <param name="result">失敗した各検証を保持するコレクション。</param>
         /// <returns>オブジェクトが有効な場合は true。それ以外の場合は false を返却します。</returns>
-        protected bool TryValidateObject(out IEnumerable<ValidationResult> result)
+        protected bool TryValidateObject(out ICollection<ValidationResult> result)
         {
             var validationResuts = new List<ValidationResult>();
             var r = Validator.TryValidateObject(this, new ValidationContext(this), validationResuts, true);

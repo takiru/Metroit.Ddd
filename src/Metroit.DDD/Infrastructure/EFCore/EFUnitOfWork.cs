@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Metroit.DDD.Infrastructure.EF
+namespace Metroit.DDD.Infrastructure.EFCore
 {
     /// <summary>
     /// Entity Framework Coreを使用したユニットオブワークの実装を提供します。

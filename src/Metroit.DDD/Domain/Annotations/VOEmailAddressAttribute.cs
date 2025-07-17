@@ -14,7 +14,7 @@ namespace Metroit.DDD.Domain.Annotations
         /// <summary>
         /// null または空文字を許容するかどうかを示す値を取得します。
         /// </summary>
-        public bool AllowNullOrEmpty { get; } = false;
+        public bool AcceptNullOrEmpty { get; } = false;
 
         /// <summary>
         /// 新しいインスタンスを生成します。
@@ -27,20 +27,50 @@ namespace Metroit.DDD.Domain.Annotations
         /// <summary>
         /// 新しいインスタンスを生成します。
         /// </summary>
-        /// <param name="allowNullOrEmpty">null または空文字を許容するかどうかを指定します。</param>
-        public VOEmailAddressAttribute(bool allowNullOrEmpty) : base(DataType.EmailAddress)
+        /// <param name="acceptNullOrEmpty">null または空文字を許容するかどうかを指定します。</param>
+        public VOEmailAddressAttribute(bool acceptNullOrEmpty) : base(DataType.EmailAddress)
         {
-            AllowNullOrEmpty = allowNullOrEmpty;
+            AcceptNullOrEmpty = acceptNullOrEmpty;
         }
 
         /// <summary>
-        /// 値がメールアドレスに形式として妥当かどうかを検証します。
+        /// ValueObject クラスに指定された場合、または ValueObject クラス内のプロパティに指定された場合に、値が有効かどうかを検証します。
         /// </summary>
         /// <param name="value">検証値。</param>
-        /// <returns>妥当な場合は true, それ以外は false を返却します。</returns>
-        public override bool IsValid(object value)
+        /// <param name="validationContext">検証値のコンテキスト。</param>
+        /// <returns>ValidationResult クラスのインスタンス。</returns>
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (AllowNullOrEmpty)
+            // ValueObject クラスに指定された場合
+            if (value is ISingleValueObject innerValue)
+            {
+                if (IsValidValue(innerValue.Value))
+                {
+                    return ValidationResult.Success;
+                }
+
+                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName),
+                    new[] { validationContext.ObjectType.Name });
+            }
+
+            // ValueObject クラス内のプロパティに指定された場合
+            if (IsValidValue(value))
+            {
+                return ValidationResult.Success;
+            }
+
+            return new ValidationResult(FormatErrorMessage(validationContext.DisplayName),
+                new[] { validationContext.MemberName });
+        }
+
+        /// <summary>
+        /// 値がメールアドレスに形式として妥当かどうかを検証する。
+        /// </summary>
+        /// <param name="value">検証値。</param>
+        /// <returns>妥当な場合は true, それ以外は false を返却する。</returns>
+        private bool IsValidValue(object value)
+        {
+            if (AcceptNullOrEmpty)
             {
                 if (string.IsNullOrEmpty(value as string))
                 {
@@ -57,36 +87,6 @@ namespace Metroit.DDD.Domain.Annotations
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// ValueObject クラスに指定された場合、または ValueObject クラス内のプロパティに指定された場合に、値が有効かどうかを検証します。
-        /// </summary>
-        /// <param name="value">検証値。</param>
-        /// <param name="validationContext">検証値のコンテキスト。</param>
-        /// <returns>ValidationResult クラスのインスタンス。</returns>
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            // ValueObject クラスに指定された場合
-            if (value is ISingleValueObject innerValue)
-            {
-                if (IsValid(innerValue.Value))
-                {
-                    return ValidationResult.Success;
-                }
-
-                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName),
-                    new[] { validationContext.ObjectType.Name });
-            }
-
-            // ValueObject クラス内のプロパティに指定された場合
-            if (IsValid(value))
-            {
-                return ValidationResult.Success;
-            }
-
-            return new ValidationResult(FormatErrorMessage(validationContext.DisplayName),
-                new[] { validationContext.MemberName });
         }
     }
 }

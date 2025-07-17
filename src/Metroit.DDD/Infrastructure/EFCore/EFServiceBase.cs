@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Metroit.DDD.Infrastructure.EF
+namespace Metroit.DDD.Infrastructure.EFCore
 {
     /// <summary>
     /// Entity Framework Coreのサービスの基本操作を提供します。
