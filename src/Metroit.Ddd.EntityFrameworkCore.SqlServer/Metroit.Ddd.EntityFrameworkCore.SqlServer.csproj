@@ -12,7 +12,7 @@
     <FileVersion>$(VersionPrefix)</FileVersion>
     <PackageProjectUrl>https://github.com/takiru/Metroit.Ddd</PackageProjectUrl>
     <RepositoryUrl>https://github.com/takiru/Metroit.Ddd</RepositoryUrl>
-    <PackageTags>Domain;DDD;DI;ValueObject;UnitOfWork;Storage;</PackageTags>
+    <PackageTags>Domain;DDD;DI;SQLServer;</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
