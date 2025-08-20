@@ -3,33 +3,56 @@ using Metroit.Ddd.Domain.ValueObjects;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Linq;
+using System.Windows.Forms;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Test
 {
     public partial class Form1 : Form
     {
+        private TestDIConfiguration di;
         public Form1()
         {
             InitializeComponent();
 
             try
             {
-                var di = new TestDIConfiguration();
-                di.Configure();
+                //di = new TestDIConfiguration();
+                //di.Configure();
 
-                // launchSettings.json を読み込める！
-                var b = di.Host.Services.GetRequiredService<IConfiguration>();
-                Debug.WriteLine(b["CommandArgs1"]);
+                ////var context = di.Host.Services.GetRequiredService<MyDbContext>();
+                ////var users = context.Users.ToList();
+                ////foreach (var user in users)
+                ////{
+                ////    Debug.WriteLine(user.UserId);
+                ////}
 
-                var env = di.Host.Services.GetRequiredService<IHostEnvironment>();
+                //var logger = di.Host.Services.GetRequiredService<ILogger<Form1>>();
+                //logger.LogInformation("これはテスト");
+
+                //// launchSettings.json を読み込める！
+                //var b = di.Host.Services.GetRequiredService<IConfiguration>();
+                //Debug.WriteLine(b["CommandArgs1"]);
+
+                //var env = di.Host.Services.GetRequiredService<IHostEnvironment>();
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private IServiceProvider _provider;
+        public Form1(IServiceProvider provider) : this()
+        {
+            _provider = provider;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -59,6 +82,20 @@ namespace Test
         {
 
         }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            //var app = di.Host.Services.GetRequiredService<TestDiApp>();
+
+            var app = _provider.GetRequiredService<TestDiApp>();
+            await app.Test();
+
+            //using (var scope = _provider.CreateScope())
+            //{
+            //    var app = scope.ServiceProvider.GetRequiredService<TestDiApp>();
+            //    app.Test();
+            //}
+        }
     }
 
     [VORequired(ErrorMessage = "{0}は必須です。")]
@@ -67,7 +104,7 @@ namespace Test
     //[VOMaxLength(5, ErrorMessageResourceName = "FugaMessage", ErrorMessageResourceType = typeof(Resource1))]
     //[VOMinLength(2, ErrorMessage = "2桁以上")]     // null だけ許容される
     //[VORegularExpression(@"^[0-9]+$", ErrorMessage = "{0}は数値のみで入力してください。")]       // null 空文字は許容される
-    [Display(Name = " DisplayNameで設定した名前")]
+    //[Display(Name = " DisplayNameで設定した名前")]
     //[VOLength(2, 5, ErrorMessage = "{0} は {1}桁以上{2}桁以下で入力してください。")]
     //[VOStringLength(1, ErrorMessage = "{0}は{1}桁まで")]
     //[VOEmailAddress(ErrorMessage = "形式が不正")]

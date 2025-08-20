@@ -1,0 +1,39 @@
+{
+  "DependencyInjectionB": {
+    "Loggers": [ "NLog", "Serilog" ],
+    "Services": [
+      {
+        "Implementation": "Test.Form1, Test",
+        "Lifetime": "Transient",
+        "UseInstance": false
+      },
+      {
+        "Implementation": "Test.Form2, Test",
+        "Lifetime": "Transient",
+        "UseInstance": false
+      },
+      {
+        "Implementation": "Test.TestDiApp, Test",
+        "Lifetime": "Transient",
+        "UseInstance": false
+      },
+      {
+        "Implementation": "Test.TestDiAppDependDbContext, Test",
+        "Lifetime": "Scoped",
+        "UseInstance": false
+      }
+    ],
+    "DbContexts": [
+      {
+        "ContextName": "SqlServer",
+        "TypeName": "Test.MyDbContext, Test",
+        "ConnectionStringName": "MaestroDbContext",
+        "Lifetime": "Scoped",
+        "Options": {
+          "EnableSensitiveDataLogging": true,
+          "CommandTimeout": 30
+        }
+      }
+    ]
+  }
+}

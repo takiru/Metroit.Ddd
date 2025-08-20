@@ -3,12 +3,20 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <!--<TargetFramework>net481</TargetFramework>-->
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
+    <!--<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.32" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Metroit.Ddd.EntityFrameworkCore.SqlServer\Metroit.Ddd.EntityFrameworkCore.SqlServer.csproj" />
+    <ProjectReference Include="..\Metroit.Ddd.NLog\Metroit.Ddd.NLog.csproj" />
     <ProjectReference Include="..\Metroit.DDD\Metroit.Ddd.csproj" />
   </ItemGroup>
 
@@ -31,7 +39,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings - コピー.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="di.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

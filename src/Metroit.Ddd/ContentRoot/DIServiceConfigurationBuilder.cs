@@ -6,7 +6,7 @@ namespace Metroit.Ddd.ContentRoot
     /// <summary>
     /// DI構成の構築を提供します。
     /// </summary>
-    public class DIConfigurationBuilder
+    public class DIServiceConfigurationBuilder
     {
         /// <summary>
         /// <see cref="IHost"/> 上の共通サービスを含むコンテキストを取得します。
@@ -21,28 +21,28 @@ namespace Metroit.Ddd.ContentRoot
         /// <summary>
         /// 構成の適用に利用するサービスビルダー。
         /// </summary>
-        private DIConfigurationServiceBuilder _builder;
+        private readonly DIConfigurationServiceBuilder Builder;
 
         /// <summary>
         /// 新しいインスタンスを生成します。
         /// </summary>
-        /// <param name="context"><see cref="IHost"/> 上の共通サービスを含むコンテキスト。</param>
-        /// <param name="services">サービス記述子のコレクション。</param>
-        public DIConfigurationBuilder(HostBuilderContext context, IServiceCollection services)
+        /// <param name="context">コンテキスト。</param>
+        /// <param name="services">サービス構成ビルダー。</param>
+        public DIServiceConfigurationBuilder(HostBuilderContext context, IServiceCollection services)
         {
             Context = context;
             Services = services;
-            _builder = new DIConfigurationServiceBuilder(Context, services);
+            Builder = new DIConfigurationServiceBuilder(Context, services);
         }
 
         /// <summary>
         /// 構成の適用を行います。
         /// </summary>
-        /// <param name="configuration"></param>
-        /// <returns></returns>
-        public virtual DIConfigurationBuilder ApplyConfiguration(IDITypeConfiguration configuration)
+        /// <param name="configuration">サービス構成。</param>
+        /// <returns>DI構成。</returns>
+        public virtual DIServiceConfigurationBuilder ApplyConfiguration(IDIServiceConfiguration configuration)
         {
-            configuration.Configure(_builder);
+            configuration.Configure(Builder);
             return this;
         }
     }

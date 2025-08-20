@@ -5,14 +5,14 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <Authors>Takeru Yamaguchi</Authors>
-    <Description>Follow up to implement Domain-Driven Design by EntityFrameworkCore.</Description>
+    <Description>Follow up to implement Domain-Driven Design.</Description>
     <Copyright>Copyright ©  2025 Takeru Yamaguchi</Copyright>
     <VersionPrefix>0.0.3</VersionPrefix>
     <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
     <FileVersion>$(VersionPrefix)</FileVersion>
     <PackageProjectUrl>https://github.com/takiru/Metroit.Ddd</PackageProjectUrl>
     <RepositoryUrl>https://github.com/takiru/Metroit.Ddd</RepositoryUrl>
-    <PackageTags>Domain;DDD;Entity;Framework;Core;EntityFramework;EntityFrameworkCore;EFCore;UnitOfWork;</PackageTags>
+    <PackageTags>Domain;DDD;DI;ValueObject;UnitOfWork;Storage;</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -23,18 +23,19 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0' or '$(TargetFramework)' == 'net8.0'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
   </ItemGroup>
-  
+
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17" />
   </ItemGroup>
-  
+
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.32" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\Metroit.Ddd\Metroit.Ddd.csproj" />
+    <ProjectReference Include="..\Metroit.Ddd.EntityFrameworkCore\Metroit.Ddd.EntityFrameworkCore.csproj" />
   </ItemGroup>
+
 </Project>

@@ -1,4 +1,7 @@
-﻿namespace Test
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Test
 {
     partial class Form1
     {
@@ -31,6 +34,7 @@
             button1 = new Button();
             textBox1 = new TextBox();
             button2 = new Button();
+            button3 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -60,11 +64,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // button3
+            // 
+            button3.Location = new Point(515, 294);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 3;
+            button3.Text = "button3";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(textBox1);
             Controls.Add(button1);
@@ -79,5 +94,6 @@
         private Button button1;
         private TextBox textBox1;
         private Button button2;
+        private Button button3;
     }
 }

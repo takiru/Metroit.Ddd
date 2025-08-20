@@ -4,9 +4,9 @@ namespace Test
 {
     class TestDIConfiguration : DIConfigration
     {
-        protected override void OnConfiguringServices(DIConfigurationBuilder configurationBuilder)
+        protected override void OnServiceConfiguring(DIServiceConfigurationBuilder builder)
         {
-            configurationBuilder.ApplyConfiguration(new TestDIViewConfiguration());
+            builder.ApplyConfiguration(new TestDIViewConfiguration());
         }
     }
 }

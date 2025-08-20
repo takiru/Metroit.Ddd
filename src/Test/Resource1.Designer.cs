@@ -61,6 +61,16 @@ namespace Test {
         }
         
         /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] di {
+            get {
+                object obj = ResourceManager.GetObject("di", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Nurtoral {0}は{1}桁まで に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FugaMessage {

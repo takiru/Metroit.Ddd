@@ -3,7 +3,7 @@
     /// <summary>
     /// サービスの構成を提供します。
     /// </summary>
-    public interface IDITypeConfiguration
+    public interface IDIServiceConfiguration
     {
         /// <summary>
         /// サービスを構成します。
