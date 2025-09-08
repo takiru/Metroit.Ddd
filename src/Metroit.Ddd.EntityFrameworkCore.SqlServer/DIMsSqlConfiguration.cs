@@ -1,4 +1,4 @@
-﻿using Metroit.Ddd.ContentRoot;
+﻿using Metroit.Ddd.CompositionRoot;
 using Microsoft.EntityFrameworkCore;
 using System;
 

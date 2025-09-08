@@ -1,8 +1,4 @@
-﻿using Metroit.Ddd.ContentRoot;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
+﻿using Metroit.Ddd.CompositionRoot;
 
 namespace Test
 {

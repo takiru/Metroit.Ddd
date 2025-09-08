@@ -15,7 +15,7 @@ namespace Test
     public class TestDiApp
     {
         private readonly ILogger _logger;
-        private readonly MyDbContext _dbContext;
+        //private readonly MyDbContext _dbContext;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
         //public TestDiApp(ILogger<TestDiApp> logger, MyDbContext dbContext)
@@ -40,7 +40,7 @@ namespace Test
             //    depend.Test();
             //};
 
-            await _serviceScopeFactory.ExecuteInScopeAsync<TestDiAppDependDbContext>(async (serviceProvider, service) =>
+            await _serviceScopeFactory.ExecuteInScopeAsync<TestUserRepository>(async (serviceProvider, service) =>
             {
                 service.Test();
                 var cnt = await service.Register();
@@ -52,16 +52,16 @@ namespace Test
     }
 
 
-    public class TestDiAppDependDbContext : EFRepositoryBase<User>
+    public class TestUserRepository : EFRepositoryBase<User, MyDbContext>
     {
         private readonly ILogger _logger;
         private readonly MyDbContext _dbContext;
 
-        public TestDiAppDependDbContext(ILogger<TestDiApp> logger, MyDbContext dbContext) : base(dbContext)
+        public TestUserRepository(ILogger<TestDiApp> logger, MyDbContext dbContext) : base(dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
-            InstantlyClearChangeTracker = true;
+            AllwaysNoTracking = true;
         }
 
         public void Test()

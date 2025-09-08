@@ -1,4 +1,4 @@
-﻿using Metroit.Ddd.ContentRoot;
+﻿using Metroit.Ddd.CompositionRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -66,7 +66,7 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <param name="connectionString">接続文字列。</param>
         /// <param name="serviceProvider">サービスプロバイダー。</param>
         /// <param name="options">接続オプション。</param>
-        protected abstract void AddDbContext(DiDbContextConfig dbContextConfig, string connectionString, 
+        protected abstract void AddDbContext(DiDbContextConfig dbContextConfig, string connectionString,
             IServiceProvider serviceProvider, DbContextOptionsBuilder options);
     }
 }

@@ -16,7 +16,7 @@ namespace Test
 {
     public partial class Form1 : Form
     {
-        private TestDIConfiguration di;
+        //private TestDIConfiguration di;
         public Form1()
         {
             InitializeComponent();
