@@ -5,16 +5,16 @@ Useful instructions for Domain driven design
 Application.Interfaces.IStorageService  
 Application.Interfaces.IUnitOfWork  
 Application.Interfaces.Generic.IStorageService  
-ContentRoot.DIConfigration  
-ContentRoot.DIConfigurationServiceBuilder  
-ContentRoot.DiDbContextConfig  
-ContentRoot.DiRootConfig  
-ContentRoot.DiServiceConfig  
-ContentRoot.DIServiceConfigurationBuilder  
-ContentRoot.IDIDbContextConfiguration  
-ContentRoot.IDILoggerConfiguration  
-ContentRoot.IDIServiceConfiguration  
-ContentRoot.ServiceCollectionJsonExtensions  
+CompositionRoot.DIConfigration  
+CompositionRoot.DIConfigurationServiceBuilder  
+CompositionRoot.DiDbContextConfig  
+CompositionRoot.DiRootConfig  
+CompositionRoot.DiServiceConfig  
+CompositionRoot.DIServiceConfigurationBuilder  
+CompositionRoot.IDIDbContextConfiguration  
+CompositionRoot.IDILoggerConfiguration  
+CompositionRoot.IDIServiceConfiguration  
+CompositionRoot.ServiceCollectionJsonExtensions  
 Domain.Annotations.VOEmailAddressAttribute  
 Domain.Annotations.VOFeedOrderAttribute  
 Domain.Annotations.VOGreaterThanAttribute  
@@ -330,7 +330,7 @@ public class SampleViewModel
 }
 ```
 
-複数のサービスが必要なときは、`serviceProvider.GetRequiredService<T>()` を利用することで同一スコープ内でサービスの取得ができますが、ユースケースで必要なサービスはファサードクラスなどでひとまとめにしておくべきでしょう。  
+複数のサービスが必要なときは、`serviceProvider.GetRequiredService<T>()` を利用することで同一スコープ内でサービスの取得ができますが、ユースケースで必要なサービスはファサードクラスなどでひとまとめにしておくとよいでしょう。  
 
 依存インターフェース/クラスが内部に隠れてしまうのは、クライアントアプリケーションでは仕方なしです。  
 ※ 画面が起動している間、ずっと同じオブジェクトでいいなら別ですが、なんだかんだDbContext絡みとかの関係上、個人的には嫌がりました。  
@@ -343,8 +343,14 @@ EFRepositoryBase
 EFServiceBase  
 EFUnitOfWork  
 
+EFRepositoryBase にある下記メソッドは、AllwaysNoTracking プロパティを `true` にしたとき、AsNoTracking() を呼び出します。 
+ - GetByPrimaryKey()
+ - GetByPrimaryKeyAsync() 
+ - GetAll()
+ - GetAllAsync()
+
 EFRepositoryBase にある下記メソッドは、呼出し後に必ず SaveChanges() またはSaveChangesAsync() が実行されます。  
-さらに、InstantlyClearChangeTracker プロパティを `true` にしたとき、すべての ChangeTracker をクリアします。  
+さらに、AllwaysNoTracking プロパティを `true` にしたとき、すべての ChangeTracker をクリアします。  
  - Add()
  - AddAsync()
  - AddRange()

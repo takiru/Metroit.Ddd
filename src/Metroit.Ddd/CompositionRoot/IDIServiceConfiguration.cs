@@ -1,4 +1,4 @@
-﻿namespace Metroit.Ddd.ContentRoot
+﻿namespace Metroit.Ddd.CompositionRoot
 {
     /// <summary>
     /// サービスの構成を提供します。

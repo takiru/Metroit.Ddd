@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Metroit.Ddd.ContentRoot
+namespace Metroit.Ddd.CompositionRoot
 {
     /// <summary>
     /// JSONから読み込まれたDI情報から、データベースコンテキストの構成を提供するためのインターフェイスです。

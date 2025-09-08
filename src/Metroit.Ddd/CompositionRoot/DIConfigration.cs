@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Metroit.Ddd.ContentRoot
+namespace Metroit.Ddd.CompositionRoot
 {
     /// <summary>
     /// アプリケーション全体のDI情報を提供します。

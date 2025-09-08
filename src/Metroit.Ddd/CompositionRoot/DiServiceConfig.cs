@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Metroit.Ddd.ContentRoot
+namespace Metroit.Ddd.CompositionRoot
 {
     /// <summary>
     /// JSONからDIを読み込むためのDIサービスの構成を表します。

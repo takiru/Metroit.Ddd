@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Metroit.Ddd.ContentRoot
+namespace Metroit.Ddd.CompositionRoot
 {
     /// <summary>
     /// JSONから読み込まれたDI情報から、ロギングの構成を提供するためのインターフェイスです。

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Metroit.Ddd.ContentRoot
+namespace Metroit.Ddd.CompositionRoot
 {
     /// <summary>
     /// DI構成の構築を提供します。
