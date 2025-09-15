@@ -61,7 +61,8 @@ namespace Test
             {
                 //CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
 
-                var b = new Hoge("a@ao.co.jp");
+                //var b = new Hoge("a@ao.co.jp");
+                var b = new Hoge("123456");
 
                 var a = new Fuga(2, 2, "value1", FugaType.Special);
                 //var b = new Fuga(123, "value1", FugaType.Special);
@@ -99,6 +100,7 @@ namespace Test
     }
 
     [VORequired(ErrorMessage = "{0}は必須です。")]
+    [VOStringLength(6, true, ErrorMessage = "{0}は全角1文字を半角2文字分とカウントして、半角6文字までです。")]
     //[VORequired(ErrorMessageResourceName = "HogeMessage", ErrorMessageResourceType = typeof(Resource1))]
     //[VOMaxLength(5, ErrorMessage = "{0}は{1}桁まで")]   // null 空文字は許容される
     //[VOMaxLength(5, ErrorMessageResourceName = "FugaMessage", ErrorMessageResourceType = typeof(Resource1))]
