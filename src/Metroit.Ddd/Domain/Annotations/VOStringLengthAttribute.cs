@@ -1,7 +1,7 @@
 ﻿using Metroit.Ddd.Domain.ValueObjects;
+using Metroit.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 
 namespace Metroit.Ddd.Domain.Annotations
 {
@@ -54,7 +54,7 @@ namespace Metroit.Ddd.Domain.Annotations
                 return true;
             }
 
-            int length = GetTextCount((string)value);
+            int length = ((string)value).GetTextCount(FullWidthCharTwo);
             return length >= MinimumLength && length <= MaximumLength;
         }
 
@@ -86,54 +86,6 @@ namespace Metroit.Ddd.Domain.Annotations
 
             return new ValidationResult(FormatErrorMessage(validationContext.DisplayName),
                 new[] { validationContext.MemberName });
-        }
-
-        /// <summary>
-        /// 全角文字を2文字としてカウントした文字列の長さを取得する。
-        /// </summary>
-        /// <param name="value">文字列。</param>
-        /// <returns>
-        /// 全角文字を2文字としてカウントした文字列の長さを返却する。
-        /// </returns>
-        private static int GetTextCount(string value)
-        {
-            int count = 0;
-            StringInfo stringInfo = new StringInfo(value);
-
-            for (int i = 0; i < stringInfo.LengthInTextElements; i++)
-            {
-                string oneCharacterString = stringInfo.SubstringByTextElements(i, 1);
-
-                // 文字幅が2なら2文字とカウント
-                count++;
-                if (IsFullWidth(oneCharacterString))
-                {
-                    count++;
-                }
-            }
-
-            return count;
-        }
-
-        /// <summary>
-        /// 1文字が全角文字かどうかを判定します。
-        /// </summary>
-        /// <param name="value">1文字の文字列。</param>
-        /// <returns>
-        /// 全角文字の場合は <see langword="true"/>, それ以外の場合は <see langword="false"/> を返却します。<br/>
-        /// <paramref name="value"/> が 1文字でないときは <see langword="false"/> を返却します。
-        /// </returns>
-        private static bool IsFullWidth(string value)
-        {
-            // Unicodeカテゴリで判断（CJK Unified Ideographs や全角カタカナ・ひらがななど）
-            if (value.Length == 1)
-            {
-                char c = value[0];
-                return char.GetUnicodeCategory(c) == UnicodeCategory.OtherLetter ||
-                       char.GetUnicodeCategory(c) == UnicodeCategory.OtherSymbol;
-            }
-
-            return false;
         }
     }
 }

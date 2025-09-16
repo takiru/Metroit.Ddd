@@ -371,6 +371,14 @@ DIMsSqlConfiguration
 
 [DIへの登録](#diへの登録) で利用されます。
 
+# Metroit.Ddd.EntityFrameworkCore.Oracle
+
+## 用意された命令
+DIOracleConfiguration
+
+[DIへの登録](#diへの登録) で利用されます。
+
+
 # Metroit.Ddd.NLog
 
 ## 用意された命令

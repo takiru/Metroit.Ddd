@@ -12,7 +12,7 @@
     <FileVersion>$(VersionPrefix)</FileVersion>
     <PackageProjectUrl>https://github.com/takiru/Metroit.Ddd</PackageProjectUrl>
     <RepositoryUrl>https://github.com/takiru/Metroit.Ddd</RepositoryUrl>
-    <PackageTags>Domain;DDD;DI;ValueObject;UnitOfWork;Storage;</PackageTags>
+    <PackageTags>Domain;DDD;DI;SQLServer;</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -22,9 +22,20 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0' or '$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.90" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="5.21.90" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="3.19.180" />
+  </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Metroit" Version="3.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+    <ProjectReference Include="..\Metroit.Ddd.EntityFrameworkCore\Metroit.Ddd.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>
