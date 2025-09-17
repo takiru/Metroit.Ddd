@@ -147,6 +147,17 @@ namespace Test
                 throw new ArgumentException(r.First().ErrorMessage);
             }
         }
+
+        /// <summary>
+        /// 受け入れる値を意図的に加工したい場合のメソッド
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected override string OnAcceptingValue(string value)
+        {
+            //return "1234567";
+            return base.OnAcceptingValue(value);
+        }
     }
 
     public class Fuga : MultiValueObject
@@ -171,6 +182,22 @@ namespace Test
         public Fuga(int? value1, int? value3, string value2, FugaType? fugaType) : base(value1, value3, value2, fugaType)
         {
 
+        }
+
+        /// <summary>
+        /// 受け入れる値を意図的に加工したい場合のメソッド
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected override object OnAcceptingValue(string name, object value)
+        {
+            //if (name == nameof(Value1))
+            //{
+            //    return 201;
+            //}
+
+            return base.OnAcceptingValue(name, value);
         }
     }
 

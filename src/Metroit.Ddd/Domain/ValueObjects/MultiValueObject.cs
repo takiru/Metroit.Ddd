@@ -72,12 +72,16 @@ namespace Metroit.Ddd.Domain.ValueObjects
                     if (orderMatchMember.Property is PropertyInfo prop)
                     {
                         var targetType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
-                        prop.SetValue(this, x.Value == null ? null : Convert.ChangeType(x.Value, targetType));
+                        prop.SetValue(this,
+                            OnAcceptingValue(prop.Name,
+                            x.Value == null ? null : Convert.ChangeType(x.Value, targetType)));
                     }
                     else if (orderMatchMember.Property is FieldInfo field)
                     {
                         var targetType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
-                        field.SetValue(this, x.Value == null ? null : Convert.ChangeType(x.Value, targetType));
+                        field.SetValue(this,
+                            OnAcceptingValue(field.Name,
+                            x.Value == null ? null : Convert.ChangeType(x.Value, targetType)));
                     }
                     _autoFeededValues.Add(x.Value);
                 });
@@ -105,5 +109,13 @@ namespace Metroit.Ddd.Domain.ValueObjects
                 .Select(x => x?.ToString() ?? string.Empty)
                 );
         }
+
+        /// <summary>
+        /// 値を受け入れるときに発生します。
+        /// </summary>
+        /// <param name="name">フィールド名 もしくは プロパティ名。</param>
+        /// <param name="value">受け入れる値。</param>
+        /// <returns>受け入れる値。</returns>
+        protected virtual object OnAcceptingValue(string name, object value) => value;
     }
 }

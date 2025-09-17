@@ -31,7 +31,7 @@ namespace Metroit.Ddd.Domain.ValueObjects
         /// <param name="value">値。</param>
         protected SingleValueObject(bool validate, T value)
         {
-            Value = value;
+            Value = OnAcceptingValue(value);
 
             if (validate)
             {
@@ -53,5 +53,12 @@ namespace Metroit.Ddd.Domain.ValueObjects
         /// </summary>
         /// <returns>値オブジェクトの文字列を返却します。</returns>
         public override string ToString() => Value.ToString();
+
+        /// <summary>
+        /// 値を受け入れるときに発生します。
+        /// </summary>
+        /// <param name="value">受け入れる値。</param>
+        /// <returns>受け入れる値。</returns>
+        protected virtual T OnAcceptingValue(T value) => value;
     }
 }
