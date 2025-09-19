@@ -112,12 +112,12 @@ namespace Metroit.Ddd.EntityFrameworkCore
         }
 
         /// <summary>
-        /// 指定された主キーを条件とするクエリを生成する。
+        /// 指定された主キーを条件とするクエリを生成します。
         /// </summary>
         /// <param name="keyValues">主キーのパラメーター。</param>
         /// <returns>主キーを条件としたクエリ。</returns>
         /// <exception cref="ArgumentException">主キーの数とパラメーターの数が一致しません。</exception>
-        private IQueryable<T1> CreatePrimaryKeyQuery(params object[] keyValues)
+        protected IQueryable<T1> CreatePrimaryKeyQuery(params object[] keyValues)
         {
             var entityType = DbContext.Model.FindEntityType(typeof(T1));
             var primaryKey = entityType.FindPrimaryKey();
