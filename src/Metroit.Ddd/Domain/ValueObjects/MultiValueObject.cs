@@ -32,18 +32,17 @@ namespace Metroit.Ddd.Domain.ValueObjects
 
         /// <summary>
         /// 新しいインスタンスを生成します。<br/>
-        /// <paramref name="values"/> が <see langword="null"/> のときは、<paramref name="validate"/> に関係なく即時検証は行いません。
+        /// <paramref name="values"/> が <see langword="null"/> でも、<paramref name="validate"/> が <see langword="true"/> のときは即時検証を行います。
         /// </summary>
         /// <param name="validate">即時検証を行うかどうか。</param>
         /// <param name="values">値のコレクション。</param>
         protected MultiValueObject(bool validate, params object[] values)
         {
-            if (values == null)
+            if (values != null)
             {
-                return;
+                AutoFeedMember(values);
             }
 
-            AutoFeedMember(values);
             if (validate)
             {
                 ValidateObject();

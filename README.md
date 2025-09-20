@@ -34,6 +34,7 @@ Infrastructure.Services.DirectoryService
 Infrastructure.Services.FileService  
 Infrastructure.Services.Generic.DirectoryService    
 Infrastructure.Services.Generic.FileService  
+Presentation.Extensions.IServiceProviderExtensions  
 Presentation.Extensions.IServiceScopeFactoryExtensions  
 
 ## 単一のValueObject
@@ -307,7 +308,8 @@ di.Configure();
  - コマンドを実行する度に IServiceScopeFactory.CreateScope() の実行が必要。
  - そのため、サービスの実行を必要とするクラス（主に ViewModel を想定）では、IServiceScopeFactory をDIする必要がある。
 
- コマンドごとのスコープの管理として IServiceScopeFactory.CreateScope() を正しく使用することが少し煩雑になるため、ExecuteInScope(), ExecuteInScopeAsync() を利用することで簡略化することができます。
+ コマンドごとのスコープの管理として IServiceScopeFactory.CreateScope() を使用することが必要となりますが、スコープを意識せずコードする人がいたとき、IServiceProvider から直接サービスを取得することで、求める適切な制御から外れるかもしれません。   
+ そこで、ExecuteInScope(), ExecuteInScopeAsync() を利用することでスコープの管理が必ず行われることを保証します。
 
 ```cs
 public class SampleViewModel
@@ -330,10 +332,11 @@ public class SampleViewModel
 }
 ```
 
-複数のサービスが必要なときは、`serviceProvider.GetRequiredService<T>()` を利用することで同一スコープ内でサービスの取得ができますが、ユースケースで必要なサービスはファサードクラスなどでひとまとめにしておくとよいでしょう。  
+複数のサービスが必要なときは、`serviceProvider.GetRequiredService<T>()` を利用することで同一スコープ内でサービスの取得ができますが、ユースケースで必要なサービスはファサードクラスなどでひとまとめにしておくとよいかもしれません。  
 
-依存インターフェース/クラスが内部に隠れてしまうのは、クライアントアプリケーションでは仕方なしです。  
+依存インターフェース/クラスが内部に隠れてしまうのは、APIを利用しないクライアント/サーバーアプリケーションでは仕方なしです。  
 ※ 画面が起動している間、ずっと同じオブジェクトでいいなら別ですが、なんだかんだDbContext絡みとかの関係上、個人的には嫌がりました。  
+　 Webのリクエスト = 画面の指示 という認識が最も分かりやすく、スコープもWebと同様の感覚で制御できるためです。
 
 
 # Metroit.Ddd.EntityFrameworkCore

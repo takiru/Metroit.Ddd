@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Metroit.Ddd.Application.Interfaces
 {
@@ -10,7 +11,12 @@ namespace Metroit.Ddd.Application.Interfaces
         /// <summary>
         /// ユニットオブワークを開始します。
         /// </summary>
-        void Begin();
+        IUnitOfWork Begin();
+
+        /// <summary>
+        /// ユニットオブワークを開始します。
+        /// </summary>
+        Task<IUnitOfWork> BeginAsync();
 
         /// <summary>
         /// ユニットオブワークを完了します。
@@ -18,8 +24,18 @@ namespace Metroit.Ddd.Application.Interfaces
         void Complete();
 
         /// <summary>
+        /// ユニットオブワークを完了します。
+        /// </summary>
+        Task CompleteAsync();
+
+        /// <summary>
         /// ユニットオブワークをキャンセルします。
         /// </summary>
         void Cancel();
+
+        /// <summary>
+        /// ユニットオブワークをキャンセルします。
+        /// </summary>
+        Task CancelAsync();
     }
 }

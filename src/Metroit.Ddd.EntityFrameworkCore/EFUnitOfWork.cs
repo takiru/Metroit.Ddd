@@ -1,21 +1,24 @@
 ﻿using Metroit.Ddd.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
+using System.Threading.Tasks;
 
 namespace Metroit.Ddd.EntityFrameworkCore
 {
     /// <summary>
     /// Entity Framework Coreを使用したユニットオブワークの実装を提供します。
     /// </summary>
-    public class EFUnitOfWork : IUnitOfWork
+    public class EFUnitOfWork<T> : IUnitOfWork where T : DbContext
     {
-        private readonly DbContext _dbContext;
+        private readonly T _dbContext;
+        private IDbContextTransaction _transaction;
 
         /// <summary>
         /// 新しいインスタンスを生成します。
         /// </summary>
         /// <param name="dbContext"><see cref="DbContext"/> オブジェクト。</param>
-        public EFUnitOfWork(DbContext dbContext)
+        public EFUnitOfWork(T dbContext)
         {
             _dbContext = dbContext;
         }
@@ -23,19 +26,52 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <summary>
         /// ユニットオブワークを開始します。
         /// </summary>
-        public void Begin() => _dbContext.Database.BeginTransaction();
+        public IUnitOfWork Begin()
+        {
+            _transaction = _dbContext.Database.BeginTransaction();
+            return this;
+        }
+
+        /// <summary>
+        /// ユニットオブワークを開始します。
+        /// </summary>
+        public async Task<IUnitOfWork> BeginAsync()
+        {
+            _transaction = await _dbContext.Database.BeginTransactionAsync();
+            return this;
+        }
 
         /// <summary>
         /// ユニットオブワークを完了します。
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        public void Complete() => _dbContext.Database.CommitTransaction();
+        public void Complete()
+        {
+            _transaction.Commit();
+        }
+
+        /// <summary>
+        /// ユニットオブワークを完了します。
+        /// </summary>
+        public Task CompleteAsync()
+        {
+            return _transaction.CommitAsync();
+        }
 
         /// <summary>
         /// ユニットオブワークをキャンセルします。
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        public void Cancel() => _dbContext.Database.RollbackTransaction();
+        public void Cancel()
+        {
+            _transaction.Rollback();
+        }
+
+        /// <summary>
+        /// ユニットオブワークをキャンセルします。
+        /// </summary>
+        public Task CancelAsync()
+        {
+            return _transaction.RollbackAsync();
+        }
 
         private bool _disposed = false;
 

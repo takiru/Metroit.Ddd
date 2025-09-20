@@ -79,7 +79,7 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <param name="keyValues">主キーのパラメーター。</param>
         /// <returns><typeparamref name="T1"/> レコード。</returns>
         /// <exception cref="ArgumentException">主キーの数とパラメーターの数が一致しません。</exception>
-        public Task<T1> GetByPrimaryKeyAsync(bool ifThrowNoDataException, params object[] keyValues)
+        public async Task<T1> GetByPrimaryKeyAsync(bool ifThrowNoDataException, params object[] keyValues)
         {
             var query = CreatePrimaryKeyQuery(keyValues);
 
@@ -87,26 +87,26 @@ namespace Metroit.Ddd.EntityFrameworkCore
             {
                 if (AllwaysNoTracking)
                 {
-                    return query
+                    return await query
                         .AsNoTracking()
                         .SingleAsync();
                 }
                 else
                 {
-                    return query
+                    return await query
                         .SingleAsync();
                 }
             }
 
             if (AllwaysNoTracking)
             {
-                return query
+                return await query
                     .AsNoTracking()
                     .SingleOrDefaultAsync();
             }
             else
             {
-                return query
+                return await query
                     .SingleOrDefaultAsync();
             }
         }
@@ -166,17 +166,17 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// </summary>
         /// <param name="cancellationToken"> キャンセルトークン。</param>
         /// <returns><typeparamref name="T1"/> レコードコレクション。</returns>
-        public Task<List<T1>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<List<T1>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             if (AllwaysNoTracking)
             {
-                return DbContext.Set<T1>()
+                return await DbContext.Set<T1>()
                     .AsNoTracking()
                     .ToListAsync(cancellationToken);
             }
             else
             {
-                return DbContext.Set<T1>()
+                return await DbContext.Set<T1>()
                     .ToListAsync(cancellationToken);
             }
         }
@@ -199,59 +199,14 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// エンティティを追加します。
         /// </summary>
         /// <param name="entity">エンティティ。</param>
+        /// <param name="cancellationToken"> キャンセルトークン。</param>
         /// <returns>影響レコード件数。</returns>
-        public Task<int> AddAsync(T1 entity)
+        public async Task<int> AddAsync(T1 entity, CancellationToken cancellationToken = default)
         {
             ExecutingAdd(entity);
             DbContext.Set<T1>().Add(entity);
-            var result = DbContext.SaveChangesAsync();
-            result.ContinueWith(t =>
-            {
-                if (t.Status == TaskStatus.RanToCompletion)
-                {
-                    InstructClearChangeTracker();
-                }
-            }, TaskScheduler.Default);
-            return result;
-        }
-
-        /// <summary>
-        /// エンティティのコレクションを追加します。
-        /// </summary>
-        /// <param name="entities">エンティティのコレクション。</param>
-        /// <returns>影響レコード件数。</returns>
-        public int AddRange(params T1[] entities)
-        {
-            foreach (var entity in entities)
-            {
-                ExecutingAdd(entity);
-            }
-            DbContext.Set<T1>().AddRange(entities);
-            var result = DbContext.SaveChanges();
+            var result = await DbContext.SaveChangesAsync(cancellationToken);
             InstructClearChangeTracker();
-            return result;
-        }
-
-        /// <summary>
-        /// エンティティのコレクションを追加します。
-        /// </summary>
-        /// <param name="entities">エンティティのコレクション。</param>
-        /// <returns>影響レコード件数。</returns>
-        public Task<int> AddRangeAsync(params T1[] entities)
-        {
-            foreach (var entity in entities)
-            {
-                ExecutingAdd(entity);
-            }
-            DbContext.Set<T1>().AddRange(entities);
-            var result = DbContext.SaveChangesAsync();
-            result.ContinueWith(t =>
-            {
-                if (t.Status == TaskStatus.RanToCompletion)
-                {
-                    InstructClearChangeTracker();
-                }
-            }, TaskScheduler.Default);
             return result;
         }
 
@@ -276,15 +231,16 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// エンティティのコレクションを追加します。
         /// </summary>
         /// <param name="entities">エンティティのコレクション。</param>
+        /// <param name="cancellationToken"> キャンセルトークン。</param>
         /// <returns>影響レコード件数。</returns>
-        public async Task<int> AddRangeAsync(IEnumerable<T1> entities)
+        public async Task<int> AddRangeAsync(IEnumerable<T1> entities, CancellationToken cancellationToken = default)
         {
             foreach (var entity in entities)
             {
                 ExecutingAdd(entity);
             }
             DbContext.Set<T1>().AddRange(entities);
-            var result = await DbContext.SaveChangesAsync();
+            var result = await DbContext.SaveChangesAsync(cancellationToken);
             InstructClearChangeTracker();
             return result;
         }
@@ -307,46 +263,13 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// エンティティを更新します。
         /// </summary>
         /// <param name="entity">エンティティ。</param>
+        /// <param name="cancellationToken"> キャンセルトークン。</param>
         /// <returns>影響レコード件数。</returns>
-        public async Task<int> UpdateAsync(T1 entity)
+        public async Task<int> UpdateAsync(T1 entity, CancellationToken cancellationToken = default)
         {
             ExecutingUpdate(entity);
             DbContext.Set<T1>().Update(entity);
-            var result = await DbContext.SaveChangesAsync();
-            InstructClearChangeTracker();
-            return result;
-        }
-
-        /// <summary>
-        /// エンティティのコレクションを更新します。
-        /// </summary>
-        /// <param name="entities">エンティティのコレクション。</param>
-        /// <returns>影響レコード件数。</returns>
-        public int UpdateRange(params T1[] entities)
-        {
-            foreach (var entity in entities)
-            {
-                ExecutingUpdate(entity);
-            }
-            DbContext.Set<T1>().UpdateRange(entities);
-            var result = DbContext.SaveChanges();
-            InstructClearChangeTracker();
-            return result;
-        }
-
-        /// <summary>
-        /// エンティティのコレクションを更新します。
-        /// </summary>
-        /// <param name="entities">エンティティのコレクション。</param>
-        /// <returns>影響レコード件数。</returns>
-        public async Task<int> UpdateRangeAsync(params T1[] entities)
-        {
-            foreach (var entity in entities)
-            {
-                ExecutingUpdate(entity);
-            }
-            DbContext.Set<T1>().UpdateRange(entities);
-            var result = await DbContext.SaveChangesAsync();
+            var result = await DbContext.SaveChangesAsync(cancellationToken);
             InstructClearChangeTracker();
             return result;
         }
@@ -372,15 +295,16 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// エンティティのコレクションを更新します。
         /// </summary>
         /// <param name="entities">エンティティのコレクション。</param>
+        /// <param name="cancellationToken"> キャンセルトークン。</param>
         /// <returns>影響レコード件数。</returns>
-        public async Task<int> UpdateRangeAsync(IEnumerable<T1> entities)
+        public async Task<int> UpdateRangeAsync(IEnumerable<T1> entities, CancellationToken cancellationToken = default)
         {
             foreach (var entity in entities)
             {
                 ExecutingUpdate(entity);
             }
             DbContext.Set<T1>().UpdateRange(entities);
-            var result = await DbContext.SaveChangesAsync();
+            var result = await DbContext.SaveChangesAsync(cancellationToken);
             InstructClearChangeTracker();
             return result;
         }
@@ -392,7 +316,6 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <returns>影響レコード件数。</returns>
         public int Remove(T1 entity)
         {
-            ExecutingRemove(entity);
             DbContext.Set<T1>().Remove(entity);
             var result = DbContext.SaveChanges();
             InstructClearChangeTracker();
@@ -403,46 +326,12 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// エンティティを削除します。
         /// </summary>
         /// <param name="entity">エンティティ。</param>
+        /// <param name="cancellationToken"> キャンセルトークン。</param>
         /// <returns>影響レコード件数。</returns>
-        public async Task<int> RemoveAsync(T1 entity)
+        public async Task<int> RemoveAsync(T1 entity, CancellationToken cancellationToken = default)
         {
-            ExecutingRemove(entity);
             DbContext.Set<T1>().Remove(entity);
-            var result = await DbContext.SaveChangesAsync();
-            InstructClearChangeTracker();
-            return result;
-        }
-
-        /// <summary>
-        /// エンティティのコレクションを削除します。
-        /// </summary>
-        /// <param name="entities">エンティティのコレクション。</param>
-        /// <returns>影響レコード件数。</returns>
-        public int RemoveRange(params T1[] entities)
-        {
-            foreach (var entity in entities)
-            {
-                ExecutingRemove(entity);
-            }
-            DbContext.Set<T1>().RemoveRange(entities);
-            var result = DbContext.SaveChanges();
-            InstructClearChangeTracker();
-            return result;
-        }
-
-        /// <summary>
-        /// エンティティのコレクションを削除します。
-        /// </summary>
-        /// <param name="entities">エンティティのコレクション。</param>
-        /// <returns>影響レコード件数。</returns>
-        public async Task<int> RemoveRangeAsync(params T1[] entities)
-        {
-            foreach (var entity in entities)
-            {
-                ExecutingRemove(entity);
-            }
-            DbContext.Set<T1>().RemoveRange(entities);
-            var result = await DbContext.SaveChangesAsync();
+            var result = await DbContext.SaveChangesAsync(cancellationToken);
             InstructClearChangeTracker();
             return result;
         }
@@ -454,10 +343,6 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <returns>影響レコード件数。</returns>
         public int RemoveRange(IEnumerable<T1> entities)
         {
-            foreach (var entity in entities)
-            {
-                ExecutingRemove(entity);
-            }
             DbContext.Set<T1>().RemoveRange(entities);
             var result = DbContext.SaveChanges();
             InstructClearChangeTracker();
@@ -468,15 +353,12 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// エンティティのコレクションを削除します。
         /// </summary>
         /// <param name="entities">エンティティのコレクション。</param>
+        /// <param name="cancellationToken"> キャンセルトークン。</param>
         /// <returns>影響レコード件数。</returns>
-        public async Task<int> RemoveRangeAsync(IEnumerable<T1> entities)
+        public async Task<int> RemoveRangeAsync(IEnumerable<T1> entities, CancellationToken cancellationToken = default)
         {
-            foreach (var entity in entities)
-            {
-                ExecutingRemove(entity);
-            }
             DbContext.Set<T1>().RemoveRange(entities);
-            var result = await DbContext.SaveChangesAsync();
+            var result = await DbContext.SaveChangesAsync(cancellationToken);
             InstructClearChangeTracker();
             return result;
         }
@@ -516,11 +398,5 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// </summary>
         /// <param name="entity">更新を行うエンティティ。</param>
         protected virtual void ExecutingUpdate(T1 entity) { }
-
-        /// <summary>
-        /// 削除を行うときに呼び出されます。
-        /// </summary>
-        /// <param name="entity">削除を行うエンティティ。</param>
-        protected virtual void ExecutingRemove(T1 entity) { }
     }
 }
