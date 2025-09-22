@@ -42,73 +42,98 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <exception cref="ArgumentException">主キーの数とパラメーターの数が一致しません。</exception>
         public T1 GetByPrimaryKey(bool ifThrowNoDataException, params object[] keyValues)
         {
-            var query = CreatePrimaryKeyQuery(keyValues);
+            var query = InstructNoTracking(CreatePrimaryKeyQuery(keyValues));
 
             if (ifThrowNoDataException)
             {
-                if (AllwaysNoTracking)
-                {
-                    return query
-                        .AsNoTracking()
-                        .Single();
-                }
-                else
-                {
-                    return query
-                        .Single();
-                }
+                return SingleCore(query);
             }
 
-            if (AllwaysNoTracking)
-            {
-                return query
-                    .AsNoTracking()
-                    .SingleOrDefault();
-            }
-            else
-            {
-                return query
-                    .SingleOrDefault();
-            }
+            return SingleOrDefaultCore(query);
         }
 
         /// <summary>
         /// 主キーを条件としたレコードを取得します。
         /// </summary>
         /// <param name="ifThrowNoDataException">レコードが存在しなかったときにスローするかどうか。</param>
+        /// <param name="cancellationToken"> キャンセルトークン。</param>
         /// <param name="keyValues">主キーのパラメーター。</param>
         /// <returns><typeparamref name="T1"/> レコード。</returns>
         /// <exception cref="ArgumentException">主キーの数とパラメーターの数が一致しません。</exception>
-        public async Task<T1> GetByPrimaryKeyAsync(bool ifThrowNoDataException, params object[] keyValues)
+        public async Task<T1> GetByPrimaryKeyAsync(bool ifThrowNoDataException,
+            CancellationToken cancellationToken = default, params object[] keyValues)
         {
-            var query = CreatePrimaryKeyQuery(keyValues);
+            var query = InstructNoTracking(CreatePrimaryKeyQuery(keyValues));
 
             if (ifThrowNoDataException)
             {
-                if (AllwaysNoTracking)
-                {
-                    return await query
-                        .AsNoTracking()
-                        .SingleAsync();
-                }
-                else
-                {
-                    return await query
-                        .SingleAsync();
-                }
+                return await SingleCoreAsync(cancellationToken, query);
             }
 
+            return await SingleOrDefaultCoreAsync(cancellationToken, query);
+        }
+
+        /// <summary>
+        /// <see cref="AllwaysNoTracking"/> に応じて <see cref="EntityFrameworkQueryableExtensions.AsNoTracking{T1}(IQueryable{T1})"/> の指示を行います。
+        /// </summary>
+        protected IQueryable<T1> InstructNoTracking(IQueryable<T1> query)
+        {
             if (AllwaysNoTracking)
             {
-                return await query
-                    .AsNoTracking()
-                    .SingleOrDefaultAsync();
+                return query.AsNoTracking();
             }
-            else
-            {
-                return await query
-                    .SingleOrDefaultAsync();
-            }
+
+            return query;
+        }
+
+        /// <summary>
+        /// 1件のレコードを取得するための基本命令を呼び出します。<br/>
+        /// 既定では <see cref="Queryable.Single{TSource}(IQueryable{TSource})"/> を実施します。<br/>
+        /// データベースエンジンに依存して動作を意図的に変更したいときにオーバーライドしてください。
+        /// </summary>
+        /// <param name="query">実行クエリ。</param>
+        /// <returns>レコード。</returns>
+        protected virtual T1 SingleCore(IQueryable<T1> query)
+        {
+            return query.Single();
+        }
+
+        /// <summary>
+        /// 1件のレコードを取得するための基本命令を呼び出します。<br/>
+        /// 既定では <see cref="Queryable.SingleOrDefault{TSource}(IQueryable{TSource})"/> を実施します。<br/>
+        /// データベースエンジンに依存して動作を意図的に変更したいときにオーバーライドしてください。
+        /// </summary>
+        /// <param name="query">実行クエリ。</param>
+        /// <returns>レコード。</returns>
+        protected virtual T1 SingleOrDefaultCore(IQueryable<T1> query)
+        {
+            return query.SingleOrDefault();
+        }
+
+        /// <summary>
+        /// 1件のレコードを取得するための基本命令を呼び出します。<br/>
+        /// 基底では <see cref="EntityFrameworkQueryableExtensions.SingleAsync{TSource}(IQueryable{TSource}, CancellationToken)"/> を実施します<br/>
+        /// データベースエンジンに依存して動作を意図的に変更したいときにオーバーライドしてください。
+        /// </summary>
+        /// <param name="cancellationToken">キャンセルトークン。</param>
+        /// <param name="query">実行クエリ。</param>
+        /// <returns>レコード。</returns>
+        protected virtual async Task<T1> SingleCoreAsync(CancellationToken cancellationToken, IQueryable<T1> query)
+        {
+            return await query.SingleAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 1件のレコードを取得するための基本命令を呼び出します。<br/>
+        /// 基底では <see cref="EntityFrameworkQueryableExtensions.SingleOrDefaultAsync{TSource}(IQueryable{TSource}, CancellationToken)"/> を実施します<br/>
+        /// データベースエンジンに依存して動作を意図的に変更したいときにオーバーライドしてください。
+        /// </summary>
+        /// <param name="cancellationToken">キャンセルトークン。</param>
+        /// <param name="query">実行クエリ。</param>
+        /// <returns>レコード。</returns>
+        protected virtual async Task<T1> SingleOrDefaultCoreAsync(CancellationToken cancellationToken, IQueryable<T1> query)
+        {
+            return await query.SingleOrDefaultAsync(cancellationToken);
         }
 
         /// <summary>
@@ -204,7 +229,7 @@ namespace Metroit.Ddd.EntityFrameworkCore
         public async Task<int> AddAsync(T1 entity, CancellationToken cancellationToken = default)
         {
             ExecutingAdd(entity);
-            DbContext.Set<T1>().Add(entity);
+            await DbContext.Set<T1>().AddAsync(entity, cancellationToken);
             var result = await DbContext.SaveChangesAsync(cancellationToken);
             InstructClearChangeTracker();
             return result;
@@ -239,7 +264,7 @@ namespace Metroit.Ddd.EntityFrameworkCore
             {
                 ExecutingAdd(entity);
             }
-            DbContext.Set<T1>().AddRange(entities);
+            await DbContext.Set<T1>().AddRangeAsync(entities, cancellationToken);
             var result = await DbContext.SaveChangesAsync(cancellationToken);
             InstructClearChangeTracker();
             return result;
@@ -377,9 +402,9 @@ namespace Metroit.Ddd.EntityFrameworkCore
         }
 
         /// <summary>
-        /// 変更追跡の即時クリアを行う。
+        /// <see cref="AllwaysNoTracking"/> に応じて変更追跡のクリアを行います。
         /// </summary>
-        private void InstructClearChangeTracker()
+        protected void InstructClearChangeTracker()
         {
             if (AllwaysNoTracking)
             {
