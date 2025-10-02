@@ -42,7 +42,7 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <exception cref="ArgumentException">主キーの数とパラメーターの数が一致しません。</exception>
         public T1 GetByPrimaryKey(bool ifThrowNoDataException, params object[] keyValues)
         {
-            var query = InstructNoTracking(CreatePrimaryKeyQuery(keyValues));
+            var query = CreatePrimaryKeyQuery(keyValues).AsNoTracking(AllwaysNoTracking);
 
             if (ifThrowNoDataException)
             {
@@ -63,31 +63,18 @@ namespace Metroit.Ddd.EntityFrameworkCore
         public async Task<T1> GetByPrimaryKeyAsync(bool ifThrowNoDataException,
             CancellationToken cancellationToken = default, params object[] keyValues)
         {
-            var query = InstructNoTracking(CreatePrimaryKeyQuery(keyValues));
+            var query = CreatePrimaryKeyQuery(keyValues).AsNoTracking(AllwaysNoTracking);
 
             if (ifThrowNoDataException)
             {
-                return await SingleCoreAsync(cancellationToken, query);
+                return await SingleCoreAsync(query, cancellationToken);
             }
 
-            return await SingleOrDefaultCoreAsync(cancellationToken, query);
+            return await SingleOrDefaultCoreAsync(query, cancellationToken);
         }
 
         /// <summary>
-        /// <see cref="AllwaysNoTracking"/> に応じて <see cref="EntityFrameworkQueryableExtensions.AsNoTracking{T1}(IQueryable{T1})"/> の指示を行います。
-        /// </summary>
-        protected IQueryable<T1> InstructNoTracking(IQueryable<T1> query)
-        {
-            if (AllwaysNoTracking)
-            {
-                return query.AsNoTracking();
-            }
-
-            return query;
-        }
-
-        /// <summary>
-        /// 1件のレコードを取得するための基本命令を呼び出します。<br/>
+        /// <see cref="GetByPrimaryKey(bool, object[])"/> によって1件のレコードを取得するための基本命令を呼び出します。<br/>
         /// 既定では <see cref="Queryable.Single{TSource}(IQueryable{TSource})"/> を実施します。<br/>
         /// データベースエンジンに依存して動作を意図的に変更したいときにオーバーライドしてください。
         /// </summary>
@@ -99,7 +86,7 @@ namespace Metroit.Ddd.EntityFrameworkCore
         }
 
         /// <summary>
-        /// 1件のレコードを取得するための基本命令を呼び出します。<br/>
+        /// <see cref="GetByPrimaryKey(bool, object[])"/> によって1件のレコードを取得するための基本命令を呼び出します。<br/>
         /// 既定では <see cref="Queryable.SingleOrDefault{TSource}(IQueryable{TSource})"/> を実施します。<br/>
         /// データベースエンジンに依存して動作を意図的に変更したいときにオーバーライドしてください。
         /// </summary>
@@ -111,27 +98,27 @@ namespace Metroit.Ddd.EntityFrameworkCore
         }
 
         /// <summary>
-        /// 1件のレコードを取得するための基本命令を呼び出します。<br/>
+        /// <see cref="GetByPrimaryKeyAsync(bool, CancellationToken, object[])"/> によって1件のレコードを取得するための基本命令を呼び出します。<br/>
         /// 基底では <see cref="EntityFrameworkQueryableExtensions.SingleAsync{TSource}(IQueryable{TSource}, CancellationToken)"/> を実施します<br/>
         /// データベースエンジンに依存して動作を意図的に変更したいときにオーバーライドしてください。
         /// </summary>
-        /// <param name="cancellationToken">キャンセルトークン。</param>
         /// <param name="query">実行クエリ。</param>
+        /// <param name="cancellationToken">キャンセルトークン。</param>
         /// <returns>レコード。</returns>
-        protected virtual async Task<T1> SingleCoreAsync(CancellationToken cancellationToken, IQueryable<T1> query)
+        protected virtual async Task<T1> SingleCoreAsync(IQueryable<T1> query, CancellationToken cancellationToken = default)
         {
             return await query.SingleAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 1件のレコードを取得するための基本命令を呼び出します。<br/>
+        /// <see cref="GetByPrimaryKeyAsync(bool, CancellationToken, object[])"/> によって1件のレコードを取得するための基本命令を呼び出します。<br/>
         /// 基底では <see cref="EntityFrameworkQueryableExtensions.SingleOrDefaultAsync{TSource}(IQueryable{TSource}, CancellationToken)"/> を実施します<br/>
         /// データベースエンジンに依存して動作を意図的に変更したいときにオーバーライドしてください。
         /// </summary>
-        /// <param name="cancellationToken">キャンセルトークン。</param>
         /// <param name="query">実行クエリ。</param>
+        /// <param name="cancellationToken">キャンセルトークン。</param>
         /// <returns>レコード。</returns>
-        protected virtual async Task<T1> SingleOrDefaultCoreAsync(CancellationToken cancellationToken, IQueryable<T1> query)
+        protected virtual async Task<T1> SingleOrDefaultCoreAsync(IQueryable<T1> query, CancellationToken cancellationToken = default)
         {
             return await query.SingleOrDefaultAsync(cancellationToken);
         }
