@@ -1,6 +1,7 @@
 ﻿using Metroit.Ddd.Domain.Annotations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
@@ -127,5 +128,44 @@ namespace Metroit.Ddd.Domain.ValueObjects
         /// <param name="value">受け入れる値。</param>
         /// <returns>受け入れる値。</returns>
         protected virtual object OnAcceptingValue(string name, object value) => value;
+
+        /// <summary>
+        /// <paramref name="propertyName"/> のプロパティの値が有効かどうかを判断します。
+        /// </summary>
+        /// <param name="propertyName">プロパティ名。</param>
+        public void ValidateObject(string propertyName)
+        {
+            var member = GetType().GetProperty(propertyName);
+            var value = member.GetValue(this);
+
+            Validator.ValidateProperty(
+                value,
+                new ValidationContext(this) { MemberName = propertyName }
+                );
+        }
+
+        /// <summary>
+        /// <paramref name="propertyName"/> のプロパティの値が有効かどうかを判断します。
+        /// </summary>
+        /// <param name="propertyName">プロパティ名。</param>
+        /// <param name="result">失敗した各検証を保持するコレクション。</param>
+        /// <returns>オブジェクトが有効な場合は true。それ以外の場合は false を返却します。</returns>
+        public bool TryValidateObject(string propertyName, out ICollection<ValidationResult> result)
+        {
+            var validationResuts = new List<ValidationResult>();
+
+            var member = GetType().GetProperty(propertyName);
+            var value = member.GetValue(this);
+
+            var r = Validator.TryValidateProperty(
+                value,
+                new ValidationContext(this) { MemberName = propertyName },
+                validationResuts
+                );
+
+            result = validationResuts;
+
+            return r;
+        }
     }
 }

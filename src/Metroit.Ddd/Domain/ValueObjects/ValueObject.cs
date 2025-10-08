@@ -93,7 +93,7 @@ namespace Metroit.Ddd.Domain.ValueObjects
         }
 
         /// <summary>
-        /// 検証コンテキスト、およびすべてのプロパティを検証するかどうかを指定する値を使用して、指定されたオブジェクトが有効かどうかを判断します。
+        /// すべてのプロパティの値が有効かどうかを判断します。
         /// </summary>
         public void ValidateObject()
         {
@@ -101,7 +101,7 @@ namespace Metroit.Ddd.Domain.ValueObjects
         }
 
         /// <summary>
-        /// 検証コンテキスト、検証結果のコレクション、およびすべてのプロパティを検証するかどうかを指定する値を使用して、指定されたオブジェクトが有効かどうかを判断します。
+        /// すべてのプロパティの値が有効かどうかを判断します。
         /// </summary>
         /// <param name="result">失敗した各検証を保持するコレクション。</param>
         /// <returns>オブジェクトが有効な場合は true。それ以外の場合は false を返却します。</returns>

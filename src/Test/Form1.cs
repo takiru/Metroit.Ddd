@@ -163,7 +163,7 @@ namespace Test
     public class Fuga : MultiValueObject
     {
         //[VORange(1, 10, ErrorMessage = "{0}は{1}から{2}の範囲で入力してください。")]
-        [VORange(1, 200, ErrorMessageResourceName = "FugaValue2Message", ErrorMessageResourceType = typeof(Resource1))]
+        [VORange(3, 200, ErrorMessageResourceName = "FugaValue2Message", ErrorMessageResourceType = typeof(Resource1))]
         [VOFeedOrder(0)]
         [Display(Name = "Value1のDisplayName")]
         //[VOLessThan(nameof(Value3), true, ErrorMessage = $"{nameof(Value3)} より大きい")]
@@ -179,9 +179,9 @@ namespace Test
         [VOFeedOrder(3)]
         public FugaType? FugaType { get; private set; }
 
-        public Fuga(int? value1, int? value3, string value2, FugaType? fugaType) : base(value1, value3, value2, fugaType)
+        public Fuga(int? value1, int? value3, string value2, FugaType? fugaType) : base(false, value1, value3, value2, fugaType)
         {
-
+            ValidateObject(nameof(Value1));
         }
 
         /// <summary>
