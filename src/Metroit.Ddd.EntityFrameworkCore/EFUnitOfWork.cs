@@ -20,6 +20,11 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <param name="dbContext"><see cref="DbContext"/> オブジェクト。</param>
         public EFUnitOfWork(T dbContext)
         {
+            if (dbContext == null)
+            {
+                throw new ArgumentNullException(nameof(dbContext));
+            }
+
             _dbContext = dbContext;
         }
 
@@ -52,9 +57,9 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <summary>
         /// ユニットオブワークを完了します。
         /// </summary>
-        public Task CompleteAsync()
+        public async Task CompleteAsync()
         {
-            return _transaction.CommitAsync();
+            await _transaction.CommitAsync();
         }
 
         /// <summary>
@@ -68,9 +73,9 @@ namespace Metroit.Ddd.EntityFrameworkCore
         /// <summary>
         /// ユニットオブワークをキャンセルします。
         /// </summary>
-        public Task CancelAsync()
+        public async Task CancelAsync()
         {
-            return _transaction.RollbackAsync();
+            await _transaction.RollbackAsync();
         }
 
         private bool _disposed = false;
@@ -97,7 +102,14 @@ namespace Metroit.Ddd.EntityFrameworkCore
 
             if (disposing)
             {
-                _dbContext.Dispose();
+                try
+                {
+                    _transaction?.Dispose();
+                }
+                finally
+                {
+                    _dbContext.Dispose();
+                }
             }
 
             _disposed = true;
