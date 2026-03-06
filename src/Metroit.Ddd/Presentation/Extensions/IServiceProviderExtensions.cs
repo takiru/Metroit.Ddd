@@ -12,8 +12,31 @@ namespace Metroit.Ddd.Presentation.Extensions
         /// <summary>
         /// スコープの中でDI注入したオブジェクトのアクションを実行します。
         /// </summary>
+        /// <param name="serviceProvider">サービスプロバイダー。</param>
+        /// <param name="action">注入したインターフェースやクラスを利用したアクション。</param>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> または <paramref name="action"/> が <see langword="null"/> です。</exception>
+        public static void ExecuteInScope(this IServiceProvider serviceProvider, Action<IServiceProvider> action)
+        {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            using (var scope = serviceProvider.CreateScope())
+            {
+                action(scope.ServiceProvider);
+            }
+        }
+
+        /// <summary>
+        /// スコープの中でDI注入したオブジェクトのアクションを実行します。
+        /// </summary>
         /// <typeparam name="T">注入するインターフェースやクラス。</typeparam>
-        /// <param name="serviceProvider">サービス作成ファクトリ。</param>
+        /// <param name="serviceProvider">サービスプロバイダー。</param>
         /// <param name="action">注入したインターフェースやクラスを利用したアクション。</param>
         /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> または <paramref name="action"/> が <see langword="null"/> です。</exception>
         public static void ExecuteInScope<T>(this IServiceProvider serviceProvider, Action<IServiceProvider, T> action)
@@ -38,9 +61,35 @@ namespace Metroit.Ddd.Presentation.Extensions
         /// <summary>
         /// スコープの中でDI注入したオブジェクトのアクションを実行し、実行結果を受け取ります。
         /// </summary>
+        /// <typeparam name="T">戻り値の型。</typeparam>
+        /// <param name="serviceProvider">サービスプロバイダー。</param>
+        /// <param name="func">注入したインターフェースやクラスを利用したアクション。</param>
+        /// <returns>実行結果。</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> または <paramref name="func"/> が <see langword="null"/> です。</exception>
+        public static T ExecuteInScope<T>(this IServiceProvider serviceProvider, Func<IServiceProvider, T> func)
+        {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
+            if (func == null)
+            {
+                throw new ArgumentNullException(nameof(func));
+            }
+
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var result = func(scope.ServiceProvider);
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// スコープの中でDI注入したオブジェクトのアクションを実行し、実行結果を受け取ります。
+        /// </summary>
         /// <typeparam name="T1">注入するインターフェースやクラス。</typeparam>
         /// <typeparam name="T2">戻り値の型。</typeparam>
-        /// <param name="serviceProvider">サービス作成ファクトリ。</param>
+        /// <param name="serviceProvider">サービスプロバイダー。</param>
         /// <param name="func">注入したインターフェースやクラスを利用したアクション。</param>
         /// <returns>実行結果。</returns>
         /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> または <paramref name="func"/> が <see langword="null"/> です。</exception>
@@ -67,8 +116,34 @@ namespace Metroit.Ddd.Presentation.Extensions
         /// <summary>
         /// スコープの中でDI注入したオブジェクトのアクションを実行します。
         /// </summary>
+        /// <param name="serviceProvider">サービスプロバイダー。</param>
+        /// <param name="asyncAction">注入したインターフェースやクラスを利用したアクション。</param>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> または <paramref name="asyncAction"/> が <see langword="null"/> です。</exception>
+        public static async Task ExecuteInScopeAsync(this IServiceProvider serviceProvider, Func<IServiceProvider, Task> asyncAction)
+        {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
+            if (asyncAction == null)
+            {
+                throw new ArgumentNullException(nameof(asyncAction));
+            }
+
+            await Task.Run(async () =>
+            {
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    await asyncAction(scope.ServiceProvider);
+                }
+            });
+        }
+
+        /// <summary>
+        /// スコープの中でDI注入したオブジェクトのアクションを実行します。
+        /// </summary>
         /// <typeparam name="T">注入するインターフェースやクラス。</typeparam>
-        /// <param name="serviceProvider">サービス作成ファクトリ。</param>
+        /// <param name="serviceProvider">サービスプロバイダー。</param>
         /// <param name="asyncAction">注入したインターフェースやクラスを利用したアクション。</param>
         /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> または <paramref name="asyncAction"/> が <see langword="null"/> です。</exception>
         public static async Task ExecuteInScopeAsync<T>(this IServiceProvider serviceProvider, Func<IServiceProvider, T, Task> asyncAction)
@@ -96,9 +171,38 @@ namespace Metroit.Ddd.Presentation.Extensions
         /// <summary>
         /// スコープの中でDI注入したオブジェクトのアクションを実行し、実行結果を受け取ります。
         /// </summary>
+        /// <typeparam name="T">戻り値の型。</typeparam>
+        /// <param name="serviceProvider">サービスプロバイダー。</param>
+        /// <param name="asyncFunc">注入したインターフェースやクラスを利用したアクション。</param>
+        /// <returns>実行結果。</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> または <paramref name="asyncFunc"/> が <see langword="null"/> です。</exception>
+        public static async Task<T> ExecuteInScopeAsync<T>(this IServiceProvider serviceProvider, Func<IServiceProvider, Task<T>> asyncFunc)
+        {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
+            if (asyncFunc == null)
+            {
+                throw new ArgumentNullException(nameof(asyncFunc));
+            }
+
+            var result = await Task.Run(async () =>
+            {
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    return await asyncFunc(scope.ServiceProvider);
+                }
+            });
+            return result;
+        }
+
+        /// <summary>
+        /// スコープの中でDI注入したオブジェクトのアクションを実行し、実行結果を受け取ります。
+        /// </summary>
         /// <typeparam name="T1">注入するインターフェースやクラス。</typeparam>
         /// <typeparam name="T2">戻り値の型。</typeparam>
-        /// <param name="serviceProvider">サービス作成ファクトリ。</param>
+        /// <param name="serviceProvider">サービスプロバイダー。</param>
         /// <param name="asyncFunc">注入したインターフェースやクラスを利用したアクション。</param>
         /// <returns>実行結果。</returns>
         /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> または <paramref name="asyncFunc"/> が <see langword="null"/> です。</exception>

@@ -6,6 +6,7 @@ namespace Metroit.Ddd.Application.Interfaces.Generic
     /// <summary>
     /// ストレージ操作を提供します。
     /// </summary>
+    /// <typeparam name="T">パス情報を持つ値オブジェクト。</typeparam>
     public interface IStorageService<T> where T : ISingleValueObject
     {
         /// <summary>

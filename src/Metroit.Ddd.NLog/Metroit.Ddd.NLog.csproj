@@ -7,7 +7,7 @@
     <Authors>Takeru Yamaguchi</Authors>
     <Description>Follow up to implement Domain-Driven Design.</Description>
     <Copyright>Copyright ©  2025 Takeru Yamaguchi</Copyright>
-    <VersionPrefix>0.0.13</VersionPrefix>
+    <VersionPrefix>0.0.14</VersionPrefix>
     <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
     <FileVersion>$(VersionPrefix)</FileVersion>
     <PackageProjectUrl>https://github.com/takiru/Metroit.Ddd</PackageProjectUrl>
@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog.Extensions.Logging" Version="6.0.3" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="6.1.2" />
   </ItemGroup>
 
   <ItemGroup>

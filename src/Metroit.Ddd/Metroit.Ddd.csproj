@@ -7,7 +7,7 @@
     <Authors>Takeru Yamaguchi</Authors>
     <Description>Follow up to implement Domain-Driven Design.</Description>
     <Copyright>Copyright ©  2025 Takeru Yamaguchi</Copyright>
-    <VersionPrefix>0.0.13</VersionPrefix>
+    <VersionPrefix>0.0.14</VersionPrefix>
     <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
     <FileVersion>$(VersionPrefix)</FileVersion>
     <PackageProjectUrl>https://github.com/takiru/Metroit.Ddd</PackageProjectUrl>
@@ -23,8 +23,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Metroit" Version="3.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+    <PackageReference Include="Metroit" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
   </ItemGroup>
 
 </Project>

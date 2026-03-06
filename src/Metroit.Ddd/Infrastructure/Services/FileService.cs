@@ -14,7 +14,11 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// </summary>
         /// <param name="path">存在を確認するパス。</param>
         /// <returns>存在すれば true、それ以外は false を返却します。</returns>
-        public virtual bool Exists(string path) => File.Exists(path);
+        public virtual bool Exists(string path)
+        {
+            CheckArgumentPath(path);
+            return File.Exists(path);
+        }
 
         /// <summary>
         /// 指定されたパスを作成します。
@@ -22,6 +26,7 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// <param name="path">作成するパス。</param>
         public virtual void Create(string path)
         {
+            CheckArgumentPath(path);
             File.Create(path);
         }
 
@@ -59,6 +64,7 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// <param name="recursive">階層のあるパスのとき、下の階層まで削除するかどうか。</param>
         public virtual void Delete(string path, bool recursive)
         {
+            CheckArgumentPath(path);
             File.Delete(path);
         }
 
@@ -98,6 +104,7 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// <returns>作成日時。</returns>
         public virtual DateTime GetCreationTime(string path)
         {
+            CheckArgumentPath(path);
             var f = new FileInfo(path);
             return f.CreationTime;
         }
@@ -109,6 +116,7 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// <returns>更新日時。</returns>
         public virtual DateTime GetLastWriteTime(string path)
         {
+            CheckArgumentPath(path);
             var f = new FileInfo(path);
             return f.LastWriteTime;
         }
@@ -120,6 +128,7 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// <returns>ルートパス。</returns>
         public virtual string GetPathRoot(string path)
         {
+            CheckArgumentPath(path);
             return Path.GetPathRoot(path);
         }
 
@@ -130,6 +139,7 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// <returns>絶対パス。</returns>
         public virtual string GetFullPath(string path)
         {
+            CheckArgumentPath(path);
             return Path.GetFullPath(path);
         }
 
@@ -140,6 +150,7 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// <returns>親のパス。</returns>
         public virtual string GetParentPath(string path)
         {
+            CheckArgumentPath(path);
             return Path.GetDirectoryName(path);
         }
 
@@ -152,6 +163,7 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// <returns>絶対パス。</returns>
         public virtual string GetFullPath(string path, string basePath)
         {
+            CheckArgumentPath(path);
             return Path.GetFullPath(path, basePath);
         }
 
@@ -163,8 +175,28 @@ namespace Metroit.Ddd.Infrastructure.Services
         /// <returns>相対パス。</returns>
         public virtual string GetRelativePath(string relativeTo, string path)
         {
+            CheckArgumentPath(path);
             return Path.GetRelativePath(relativeTo, path);
         }
 #endif
+
+        /// <summary>
+        /// 引数で受け取ったパスの正当性をチェックします。
+        /// </summary>
+        /// <param name="path">パス。</param>
+        /// <exception cref="ArgumentNullException">パスが null である。</exception>
+        /// <exception cref="ArgumentException">パスが空である。</exception>
+        private void CheckArgumentPath(string path)
+        {
+            if (path == null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
+            if (path == "")
+            {
+                throw new ArgumentException("The path must not be an empty string.", nameof(path));
+            }
+        }
     }
 }

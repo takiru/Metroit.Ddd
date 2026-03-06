@@ -1,5 +1,4 @@
-﻿using Metroit.Ddd.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace Metroit.Ddd.EntityFrameworkCore
