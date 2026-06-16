@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Linq;
 
 namespace Metroit.Ddd.Domain.Annotations
 {
@@ -18,6 +20,11 @@ namespace Metroit.Ddd.Domain.Annotations
         /// 等しい値を許容するかどうかを取得します。
         /// </summary>
         public bool AcceptEqual { get; }
+
+        /// <summary>
+        /// メッセージに埋込を行うテキスト配列を取得または設定します。
+        /// </summary>
+        public string[] EmbeddedTexts { get; set; } = null;
 
         /// <summary>
         /// 新しいインスタンスを生成します。
@@ -65,8 +72,19 @@ namespace Metroit.Ddd.Domain.Annotations
                 }
             }
 
-            return new ValidationResult(FormatErrorMessage(validationContext.DisplayName),
+            var embeddedTexts = new[] { validationContext.DisplayName }.Concat(EmbeddedTexts ?? Enumerable.Empty<string>()).ToArray();
+            return new ValidationResult(FormatErrorMessage(embeddedTexts),
                 new[] { validationContext.ObjectType.Name });
+        }
+
+        /// <summary>
+        /// 文字列を埋め込んだメッセージを取得します。
+        /// </summary>
+        /// <param name="embeddedTexts">埋込を行う文字列。</param>
+        /// <returns>文字列を埋め込んだメッセージ。</returns>
+        public virtual string FormatErrorMessage(string[] embeddedTexts)
+        {
+            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, embeddedTexts);
         }
     }
 }
