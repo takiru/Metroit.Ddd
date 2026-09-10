@@ -88,7 +88,7 @@ namespace Metroit.Ddd.Infrastructure.Services
         {
             try
             {
-                Directory.Delete(path);
+                Directory.Delete(path, recursive);
                 return true;
             }
             catch
