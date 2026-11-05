@@ -19,6 +19,11 @@ namespace Metroit.Ddd.Domain.ValueObjects
         object ISingleValueObject.Value => Value;
 
         /// <summary>
+        /// 新しいインスタンスを生成します。
+        /// </summary>
+        protected SingleValueObject() { }
+
+        /// <summary>
         /// 新しいインスタンスを生成します。値は即時検証されます。
         /// </summary>
         /// <param name="value">値。</param>

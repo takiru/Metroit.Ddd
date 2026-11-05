@@ -107,9 +107,9 @@ namespace Metroit.Ddd.Domain.ValueObjects
         /// <returns>オブジェクトが有効な場合は true。それ以外の場合は false を返却します。</returns>
         public bool TryValidateObject(out ICollection<ValidationResult> result)
         {
-            var validationResuts = new List<ValidationResult>();
-            var r = Validator.TryValidateObject(this, new ValidationContext(this), validationResuts, true);
-            result = validationResuts;
+            var validationResults = new List<ValidationResult>();
+            var r = Validator.TryValidateObject(this, new ValidationContext(this), validationResults, true);
+            result = validationResults;
 
             return r;
         }

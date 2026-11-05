@@ -16,7 +16,7 @@ namespace Metroit.Ddd.Domain.ValueObjects
     public abstract class MultiValueObject : ValueObject
     {
         /// <summary>
-        /// AutoFeedMember によって流し込みが行われた値。
+        /// AutoFeedMember() または RecordFeedOrderValues() によって流し込みが行われた値。
         /// </summary>
         private List<object> _autoFeededValues = new List<object>();
 
@@ -47,6 +47,39 @@ namespace Metroit.Ddd.Domain.ValueObjects
             if (validate)
             {
                 ValidateObject();
+            }
+        }
+
+        /// <summary>
+        /// <seealso cref="VOFeedOrderAttribute"/> 属性が指定されたプロパティまたはフィールドに対して、値の認識を行います。
+        /// </summary>
+        protected void RecordFeedOrderValues()
+        {
+            var orderedMembers = new List<(VOFeedOrderAttribute OrderAttribute, MemberInfo Property)>(
+                GetType()
+                .GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
+                            BindingFlags.GetProperty | BindingFlags.GetField)
+                .Select(x => (Propperty: x, OrderAttribute: x.GetCustomAttribute<VOFeedOrderAttribute>()))
+                .Where(x => x.OrderAttribute != null)
+                .Select(x => (x.OrderAttribute, (MemberInfo)x.Propperty))
+                .ToList()
+                );
+
+            orderedMembers.Sort((x, y) => x.OrderAttribute.Order.CompareTo(y.OrderAttribute.Order));
+
+            _autoFeededValues.Clear();
+            foreach (var member in orderedMembers)
+            {
+                if (member.Property is PropertyInfo prop)
+                {
+                    var targetType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                    _autoFeededValues.Add(prop.GetValue(this));
+                }
+                else if (member.Property is FieldInfo field)
+                {
+                    var targetType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
+                    _autoFeededValues.Add(field.GetValue(this));
+                }
             }
         }
 
@@ -152,7 +185,7 @@ namespace Metroit.Ddd.Domain.ValueObjects
         /// <returns>オブジェクトが有効な場合は true。それ以外の場合は false を返却します。</returns>
         public bool TryValidateObject(string propertyName, out ICollection<ValidationResult> result)
         {
-            var validationResuts = new List<ValidationResult>();
+            var validationResults = new List<ValidationResult>();
 
             var member = GetType().GetProperty(propertyName);
             var value = member.GetValue(this);
@@ -160,10 +193,10 @@ namespace Metroit.Ddd.Domain.ValueObjects
             var r = Validator.TryValidateProperty(
                 value,
                 new ValidationContext(this) { MemberName = propertyName },
-                validationResuts
+                validationResults
                 );
 
-            result = validationResuts;
+            result = validationResults;
 
             return r;
         }
